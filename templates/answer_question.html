@@ -5,12 +5,6 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <main class="container ai-question-container">
-  <div id="loading-cont" class="loading-container">
-      <div class="loader">
-        <span class="robot"></span>
-        <span class="loading-text">Loading AI...</span>
-    </div>
-  </div>
   <div class="row ai-question">
     <h1>Question:</h1>
     {% for para in question %}
@@ -22,7 +16,7 @@
 
 <div class="user-answer">
   <div class="user-answer-form">
-    <form class="" action="{{ url_for('submit_answer') }}" method="post">
+    <form class="" onsubmit="handleSubmit(event)" method="post">
       <div class="mb-3">
         <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
       </div>
@@ -35,33 +29,33 @@
 
 </div>
 
-<div id="all-the-feedback" class="{{answers_class}}">
-  <div class="ai-perfect-answer">
-    <h2>Feedback</h2>
-    {% for para in feedback %}
-            <span>{{para}}</span>
-            <br>
-        {% endfor %}
+<div id='container-for-feedback'>
+  <div id="loading-cont" class="loading-container">
+      <div class="loader">
+        <span class="robot"></span>
+        <span class="loading-text">Loading AI...</span>
+    </div>
   </div>
+  <div id="all-the-feedback" class="hidden">
+    <div class="feedback-div ai-star-answer">
+      <h2>Feedback</h2>
+      <p id='feedback'> </p>
+    </div>
 
-  <br>
+    <br>
 
-  <div class="user-controls">
-    <button id="show-perfect" class="{{answers_class}} btn btn-primary btn-lg">Show Star Answer</button>
+    <div class="user-controls">
+      <button id="show-perfect" class="btn btn-primary btn-lg">Show Star Answer</button>
+    </div>
+
+    <br>
+
+    <div id="star-answer-div" class="hidden ai-star-answer">
+      <h2> &#x2B50; Star Answer &#x2B50;</h2>
+      <p id=star-answer-para> </p>
+    </div>
+
   </div>
-
-  <br>
-
-  <div id="perfect-answer" class="hidden ai-perfect-answer">
-    <h2> &#x2B50; Star Answer &#x2B50;</h2>
-      {% for para in perfect_answer %}
-          <span>{{para}}</span>
-          <br>
-      {% endfor %}
-  </div>
-
-
-
 </div>
 
 <br>
@@ -76,18 +70,56 @@
 
 <script>
   var showPerfectButton = document.getElementById('show-perfect');
-  var perfectAnswerDiv = document.getElementById('perfect-answer');
+  var starAnswerDiv = document.getElementById('star-answer-div');
+  var starAnswerPara = document.getElementById('star-answer-para');
   var sameAgain = document.getElementById('same-again');
   var newTopic = document.getElementById('new-topic');
   var takeMeHome = document.getElementById('take-me-home');
   var loadingScreen = document.getElementById('loading-cont')
   var submitButton = document.getElementById('submit')
+  var feedbackSection = document.getElementById('all-the-feedback')
+  var feedbackDiv = document.getElementById('feedback-div')
+  var feedbackPara = document.getElementById('feedback')
 
+
+
+  function handleSubmit(event) {
+      // Prevent the form from submitting normally
+      event.preventDefault();
+
+      // Get the form data
+      var formData = new FormData(event.target);
+      feedbackSection.classList.add('hidden')
+      // Make a POST request to the Flask route using Axios
+      axios.post('/get-feedback', formData)
+        .then(function(response) {
+          console.log(response)
+          // Update the page with the result
+          loadingScreen.style.display = "none";
+          feedbackSection.classList.remove('hidden')
+          feedbackPara.textContent = response.data.result;
+        })
+        .catch(function(error) {
+          // Handle errors here
+        });
+
+        axios.post('/get-star-answer', formData)
+          .then(function(response) {
+            console.log(response)
+            // Update the page with the result
+            loadingScreen.style.display = "none";
+            feedbackSection.classList.remove('hidden')
+            starAnswerPara.textContent = response.data.result;
+          })
+          .catch(function(error) {
+            // Handle errors here
+          });
+    }
 
   console.log("Hello")
   showPerfectButton.addEventListener('click', function() {
-    perfectAnswerDiv.classList.remove('hidden');
-    perfectAnswerDiv.classList.add('show');
+    starAnswerDiv.classList.remove('hidden');
+    starAnswerDiv.classList.add('show');
     showPerfectButton.classList.add('hidden');
   });
 

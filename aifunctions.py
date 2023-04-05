@@ -15,7 +15,7 @@ def create_question(subject, level, exam_board, number_of_marks, topic, sameAgai
 
     print(message)
 
-    options = getDaVinciOptions(message)
+    options = get_da_vinci_options(message)
     print(options)
     try:
         response = openai.Completion.create(**options)['choices'][0]["text"].strip().split('\n')
@@ -31,7 +31,7 @@ def same_again(subject, level, exam_board, number_of_marks, topic, question):
     return create_question(subject, level, exam_board, number_of_marks, topic, sameAgainSentence)
 
 
-def getDaVinciOptions(message):
+def get_da_vinci_options(message):
     options = {
         "model": "text-davinci-003",
         "prompt": message,
@@ -44,7 +44,7 @@ def getDaVinciOptions(message):
 
     return options
 
-def getChatGPTOptionsSingleMessage(message):
+def get_chat_gpt_options_string_single_message(message):
     options = {
         "messages": [{"role": "user", "content": message}],
         "temperature": 1,
@@ -55,40 +55,47 @@ def getChatGPTOptionsSingleMessage(message):
     }
     return options
 
-def analyse_answer(subject, level, exam_board, question, answer, marks):
 
-    messageBase = '''The following is a {} {} example exam question, for the exam board {}. "{}"'''.format(subject, level, exam_board, question)
+def get_message_base(subject, level, exam_board, question):
+    return '''The following is a {} {} example exam question, for the exam board {}. "{}"'''.format(subject, level, exam_board, question)
 
-    messageVariantOne = '''A student gave the following answer: "{}" to the question {}. Leave a comment on their work saying how many marks out of {} this answer get and how could this answer be improved. Use \n for new lines
+def get_feedback(subject, level, exam_board, question, answer, marks):
+
+    messageBase = get_message_base(subject, level, exam_board, question)
+    messageVariant = '''A student gave the following answer: "{}" to the question {}. Leave a comment on their work saying how many marks out of {} this answer get and how could this answer be improved. Use \n for new lines
     Please be as specific as you can be. The tone should be friendly but definitely not patronizing.'''.format(answer, question, marks)
-    messageVariantTwo = '''Give a perfect answer to this question. This answer should get {} marks in a {} {} exam for the question. Remember to show all your working. Your answer should be in the format of a pupil writing an answer in an exam. Use \n for new lines'''.format(marks, subject, level, question)
-
-    messageOne = messageBase+messageVariantOne
-    print(messageOne)
-
-    messageTwo = messageBase+messageVariantTwo
-    print(messageTwo)
+    message = messageBase+messageVariant
+    print(message)
 
     try:
-        responseOne = openai.Completion.create(**getDaVinciOptions(messageOne))['choices'][0]['text'].strip().split('\n')
-        print("*Response one*")
-        print(responseOne)
-        responseTwo = openai.ChatCompletion.create(**getChatGPTOptionsSingleMessage(messageTwo))['choices'][0]['message']["content"].strip().split('\n')
-        print("*Response two*")
-        print(responseTwo)
+        response = openai.Completion.create(**get_da_vinci_options(message))['choices'][0]['text'].strip().split('\n')
+        print("*Feedback*")
+        print(response)
     except Exception as e:
         print(f"Problem with: {e}")
         return
 
-    response = {
-        "feedback": responseOne,
-        "perfect_answer": responseTwo
-    }
+    return response
+
+def get_star_answer(subject, level, exam_board, question, answer, marks):
+    messageBase = get_message_base(subject, level, exam_board, question)
+    messageVariant = '''Give a perfect answer to this question. This answer should get {} marks in a {} {} exam for the question.
+    Remember to show all your working. Your answer should be in the format of a pupil writing an answer in an exam. Do not repeat the question back in your answer. Use \n for new lines'''.format(marks, subject, level, question)
+    message = messageBase+messageVariant
+    print(message)
+
+    try:
+        response = openai.ChatCompletion.create(**get_chat_gpt_options_string_single_message(message))['choices'][0]['message']["content"].strip().split('\n')
+        print("*Perfect response*")
+        print(response)
+    except Exception as e:
+        print(f"Problem with: {e}")
+        return
 
     return response
 
 
-def completionQuery(options):
+def completion_query(options):
     """
     This method calls the openai CompletionCreate method. Use this if you're just sending standard prompt string.
     Options should be:
@@ -108,7 +115,7 @@ def completionQuery(options):
     return response
 
 
-def chatCompletionQuery(options):
+def chat_completion_query(options):
         """
         This method calls the openAI ChatCompletionCreate method. Use this if you want to send priming sequences.
         Options should be:
@@ -133,12 +140,12 @@ def chatCompletionQuery(options):
             print(f"Problem with: {e}.")
 
 
-def getChoices(openAIResponse, type="chatCompletionQuery"):
+def get_choices(openAIResponse, type="chat_completion_query"):
     """
     Returns a choice from the openai api response. This is generally the words you're looking for </force>
     """
     try:
-        if type == "chatCompletionQuery":
+        if type == "chat_completion_query":
             text = openAIResponse['choices'][0]["message"]['content']
         else:
             text = openAIResponse['choices'][0]["text"]
