@@ -19,7 +19,10 @@
               <option value="Maths">Maths</option>
               <option value="Chemistry">Chemistry</option>
               <option value="Biology">Biology</option>
+              <option value="Biology">Physics</option>
               <option value="English">English</option>
+              <option value="English">History</option>
+              <option value="English">Government and Politics</option>
     
             </select>
           </div>
@@ -35,16 +38,28 @@
     
           <div class="mb-3">
             <label class="form-label" for="level">Exam board</label>
-            <select class="form-select form-select-lg mb-3" name="level" id="level">
-              <option value="any" selected>Any</option>
-              <option value="aqa">AQA</option>
-              <option value="edexel">EDEXCEL</option>
-              <option value="cambridge">Cambridge National</option>
+            <select class="form-select form-select-lg mb-3" name="exam-board" id="exam-board">
+              <option value="AQA">AQA</option>
+              <option value="Edexcel">Edexcel</option>
+              <option value="OCR">OCR</option>
+              <option value="SQA">SQA</option>
             </select>
+          </div>
+
+          <!-- <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="enable_marks_range()">
+            <label class="form-check-label" for="flexCheckDefault">
+              Set question marks value?
+            </label>
+          </div> -->
+
+          <div class="mb-3">
+            <label for="marks" class="form-label">Difficulty - Number of marks: <span id="marks_value">Any</span></label>
+            <input type="range" class="form-range" min="0" max="15" id="marks" value="0" onchange="marks_value(this)">
           </div>
     
           <div class="mb-3">
-            <label class="form-label" for="topic">Topic</label>
+            <label class="form-label" for="topic">Topic (optional)</label>
             <input type="text" class="form-control form-control-lg" name="topic" placeholder="eg. Earthquakes, pythagaros theorum, weasel mating habitss">
           </div>
           
