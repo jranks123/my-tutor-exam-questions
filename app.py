@@ -30,8 +30,14 @@ def create_question():
     session["question"] = question
 
     # Redirect to the questions page
-    return render_template('answer_question.html', **locals())
+    return redirect(url_for('answer_question'))
 
+
+
+@app.route('/answer_question', methods=['GET'])
+def answer_question():
+    question = session['question']
+    return render_template('answer_question.html', **locals())
 
 
 
