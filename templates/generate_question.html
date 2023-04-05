@@ -2,60 +2,92 @@
 
 {% block body %}
 <main class="container">
-  <div class="bg-light p-5 rounded mt-5">
-    <h1>Generate an exam question</h1>
+  <div class="row gq-row">
+    <div class="col gq-text">
+        <h1>Generate an exam question</h1>
+        <p class="lead">
+          Use the form below to choose the subject, level and topic of the question you want to generate.
+          You can repeat this process to create as many new unique questions you want to test yourself with.
+        </p>
 
-    <form class="" action="{{ url_for('create_question') }}" method="post">
+        <form class="gq-form" action="{{ url_for('create_question') }}" method="post">
+
+          <div class="mb-3">
+            <label class="form-label" for="subject">Subject</label>
+            <select class="form-select form-select-lg mb-3" name="subject" id="subject">
+
+              <option value="Maths">Maths</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Biology">Biology</option>
+              <option value="Biology">Physics</option>
+              <option value="English">English</option>
+              <option value="English">History</option>
+              <option value="English">Government and Politics</option>
+
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="level">Level</label>
+            <select class="form-select form-select-lg mb-3" name="level" id="level">
+              <option value="GCSE">GCSE</option>
+              <option value="A Level">A Level</option>
+              <option value="KS3">KS3</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="level">Exam board</label>
+            <select class="form-select form-select-lg mb-3" name="exam-board" id="exam-board">
+              <option value="AQA">AQA</option>
+              <option value="Edexcel">Edexcel</option>
+              <option value="OCR">OCR</option>
+              <option value="SQA">SQA</option>
+            </select>
+          </div>
+
+          <!-- <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="enable_marks_range()">
+            <label class="form-check-label" for="flexCheckDefault">
+              Set question marks value?
+            </label>
+          </div> -->
+    
 
       <div class="mb-3">
-        <label class="form-label" for="subject">Subject</label>
-        <select name="subject" id="subject">
-
-          <option value="Maths"">Maths</option>
-          <option value="Chemistry">Chemistry</option>
-          <option value="Biology">Biology</option>
-          <option value="Biology">Physics</option>
-          <option value="English">English</option>
-          <option value="English">History</option>
-          <option value="English">Government and Politics</option>
-
-        </select>
+        <label for="marks" class="form-label">Difficulty - Number of marks: <span id="marks_value">Any</span></label>
+        <input type="range" class="form-range" min="0" max="15" id="marks" value="0" onchange="marks_value(this)">
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="level">Level</label>
-        <select name="level" id="level">          
-          <option value="GCSE">GCSE</option>
-          <option value="A Level">A Level</option>
-          <option value="A Level">University</option>
-        </select>
+        <label class="form-label" for="topic">Topic (optional)</label>
+        <input type="text" class="form-control form-control-lg" name="topic" placeholder="eg. Earthquakes, pythagaros theorum, weasel mating habitss">
       </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="exam-board">Exam Board</label>
-        <select name="exam-board" id="exam-board">
-          <option value="AQA">AQA</option>
-          <option value="Edexcel">Edexcel</option>
-          <option value="OCR">OCR</option>
-          <option value="SQA">SQA</option>
-        </select>
+      <div class="gq-button">
+        <button type="submit" id="submit" class="btn btn-primary btn-lg">Generate a question</button>
       </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="marks">Number of marks</label>
-        <input type="text" class="form-control" name="marks" placeholder="eg. 1">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="marks">Topic (optional)</label>
-        <input type="text" class="form-control" name="topic" placeholder="">
-      </div>
-
-      <button type="submit" id="submit" class="btn btn-primary btn-lg">Generate a question</button>
 
     </form>
+
+  </div>
+  <div class="col gq-image">
+    <img src="{{ url_for('static', filename='images/bg2.png') }}">
   </div>
 
 
+
 </main>
+
+<script>
+  function marks_value(marks) {
+    const marks_display = document.getElementById("marks_value");
+    if (marks.value != 0){
+      marks_display.innerHTML = marks.value;
+    } else {
+      marks_display.innerHTML = "Any";
+    }
+
+  }
+</script>
 {% endblock %}
