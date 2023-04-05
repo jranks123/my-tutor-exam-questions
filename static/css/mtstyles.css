@@ -6,7 +6,7 @@ body {
     padding-top: 70px;
     font-family: "FoundersGrotesk", Roboto, Verdana, sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   h1, h2 {
@@ -55,7 +55,9 @@ body {
       color: #232323;
       font-weight: 600;
       font-family: "FoundersGrotesk",sans-serif;
+      margin: 10px;
   }
+
 
   .btn-primary:hover {
     color: #FFFFFF;
@@ -97,7 +99,13 @@ body {
     background: #fff;
     border: 12px solid #242424;
     border-radius: 12px;
-    
+
+  }
+
+  .ai-perfect-answer, .ai-feedback{
+    border: 6px solid #242424;
+    padding: 20px;
+    background: #fff;
   }
 
   .ai-question h1, .ai-question h2 {
@@ -105,7 +113,7 @@ body {
   }
 
   .ai-question .lead {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     color: #242424;
   }
@@ -116,7 +124,7 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    
+
   }
 
 

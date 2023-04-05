@@ -7,10 +7,10 @@
 <main class="container ai-question-container">
   <div class="row ai-question">
     <h1>Question:</h1>
-    <p class="lead"> {% for para in question %}
-        <p>{{para}}</p>
+    {% for para in question %}
+        <span class="lead">{{para}}</span>
     {% endfor %}
-    </p>
+
   </div>
 
 <div class="user-answer">
@@ -19,7 +19,7 @@
       <div class="mb-3">
         <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
       </div>
-      <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
+      <button type="submit" id="submit" class="btn btn-primary btn-lg {{submit_class}}">Submit Answer</button>
     </form>
   </div>
   <div class="user-answer-image">
@@ -28,31 +28,39 @@
 
 </div>
 
+<div id="all-the-feedback" class="{{answers_class}}"
   <div class="row ai-feedback">
     <h2>Feedback</h2>
-    <p>     {% for para in feedback %}
-            <p>{{para}}</p>
+    {% for para in feedback %}
+            <span>{{para}}</span>
         {% endfor %}
-    </p>
   </div>
+
+  <br>
 
   <div class="user-controls">
-    <button id="show-perfect" class="btn btn-primary btn-sm">Show Perfect Answer</button>
+    <button id="show-perfect" class="{{answers_class}} btn btn-primary btn-lg">Show Star Answer</button>
   </div>
 
+  <br>
 
   <div id="perfect-answer" class="hidden ai-perfect-answer">
-    <h3>Perfect Answer</h3>
-      <p> {% for para in perfect_answer %}
-          <p>{{para}}</p>
+    <h2> &#x2B50; Star Answer &#x2B50;</h2>
+      {% for para in perfect_answer %}
+          <span>{{para}}</span>
       {% endfor %}
-    </p>
   </div>
 
-<button id="same-again" class="btn btn-primary btn-sm">Give me another question like this!</button>
-<button id="new-topic" class="btn btn-primary btn-sm">Give me a {{ subject }} {{ level }}  question on a different topic</button>
-<button id="take-me-home" class="btn btn-primary btn-sm">Let me choose a different subject/level/topic </button>
 
+</div>
+
+<br>
+
+<button id="same-again" class="btn btn-primary btn-lg">Give me another question like this!</button>
+<button id="new-topic" class="btn btn-primary btn-lg">Give me a {{ subject }} {{ level }}  question on a different topic</button>
+<button id="take-me-home" class="btn btn-primary btn-lg">Let me choose a different subject/level/topic </button>
+
+<br><br>
 
 </main>
 

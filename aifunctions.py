@@ -4,12 +4,22 @@ import config, os
 openai.api_key = config.OPENAI_API_KEY
 print("key = " + openai.api_key)
 
+def removeInitalBackslashNs(arr):
+    while arr:
+        s = arr.pop(0)
+        if s != "\n" and s != "":
+            break
+    while arr and (arr[0] == "\n" or arr[0] == ""):
+        arr.pop(0)
+    return arr
+
+
 def create_question(subject, level, exam_board, number_of_marks, topic):
 
     number_of_marks = number_of_marks if number_of_marks else 3
     topic_sentance = '''The question should be on the topic of {}.'''.format(topic) if topic else ""
 
-    message = '''Create a {} {} {} example exam question, worth {} mark(s), and display the number of marks it could receive in the format: "Marks available: X". {} It is important that the number of marks is exactly {}. 
+    message = '''Create a {} {} {} example exam question, worth {} mark(s), and display the number of marks it could receive in the format: "Marks available: X". {} It is important that the number of marks is exactly {}.
     It is very important that you do not give the answer. The exam question must be an question that can receive a text-based answer.'''.format(subject, level, exam_board, number_of_marks, topic_sentance, number_of_marks, exam_board)
 
     print(message)
@@ -18,6 +28,7 @@ def create_question(subject, level, exam_board, number_of_marks, topic):
     print(options)
     try:
         response = openai.Completion.create(**options)['choices'][0]["text"].split('\n')
+        response = removeInitalBackslashNs(re)
         print(response)
     except Exception as e:
         print(f"Problem with: {e}")
@@ -53,8 +64,9 @@ def analyse_answer(subject, level, exam_board, question, answer, marks):
 
     messageBase = '''The following is a {} {} example exam question, for the exam board {}. "{}"'''.format(subject, level, exam_board, question)
 
-    messageVariantOne = '''A student gave the following answer: "{}". Imagine you are an exam marker for this exam board. How could this answer be improved? Please be as specific as you can be. The tone should be friendly but definitely not patronizing. And if the answer is perfect, tell them so!'''.format(answer)
-    messageVariantTwo = '''Give a perfect answer to this question. This answer should get {} marks in a {} {} exam for the question. Remember to show all your working.'''.format(marks, subject, level, question)
+    messageVariantOne = '''A student gave the following answer: "{}" to the question {}. Leave a comment on their work saying how many marks out of {} this answer get and how could this answer be improved.
+    Please be as specific as you can be. The tone should be friendly but definitely not patronizing.'''.format(answer, question, marks)
+    messageVariantTwo = '''Give a perfect answer to this question. This answer should get {} marks in a {} {} exam for the question. Remember to show all your working. Your answer should be in the format of a pupil writing an answer in an exam'''.format(marks, subject, level, question)
 
     messageOne = messageBase+messageVariantOne
     print(messageOne)
@@ -63,13 +75,15 @@ def analyse_answer(subject, level, exam_board, question, answer, marks):
     print(messageTwo)
 
     try:
-        responseOne = openai.Completion.create(**getDaVinciOptions(messageOne))
+        responseOne = openai.Completion.create(**getDaVinciOptions(messageOne))['choices'][0]['text'].split('\n')
+        print("*Response one*")
         print(responseOne)
-        responseOne = responseOne['choices'][0]['text'].split('\n')
         responseTwo = openai.ChatCompletion.create(**getChatGPTOptionsSingleMessage(messageTwo))['choices'][0]['message']["content"].split('\n')
+        print("*Response two*")
         print(responseTwo)
     except Exception as e:
         print(f"Problem with: {e}")
+        return
 
     response = {
         "feedback": responseOne,

@@ -21,11 +21,18 @@ def index():
 @app.route('/create_question', methods=['POST'])
 def create_question():
     # Get the question data from the form
+
+    print("****")
+    print(request.form)
+
     subject = request.form.get('subject')
     level = request.form.get('level')
     marks = request.form.get('marks')
     topic = request.form.get('topic')
     exam_board = request.form.get('exam-board')
+
+
+
 
     # Call your function to create the question
     question = aifunctions.create_question(subject, level, exam_board, marks, topic)
