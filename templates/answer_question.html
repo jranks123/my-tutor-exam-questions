@@ -3,20 +3,26 @@
 {% block body %}
 
 
-<main class="container">
+<main class="container ai-question-container">
   <div class="row ai-question">
     <h1>Question:</h1>
     <p class="lead">{{ question }}
     </p>
   </div>
 
-<div class="row user-answer">
-  <form class="" action="{{ url_for('submit_answer') }}" method="post">
-    <div class="mb-3">
-      <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
-    </div>
-    <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
-  </form>
+<div class="user-answer">
+  <div class="user-answer-form">
+    <form class="" action="{{ url_for('submit_answer') }}" method="post">
+      <div class="mb-3">
+        <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
+      </div>
+      <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
+    </form>
+  </div>
+  <div class="user-answer-image">
+    <img src="https://cdn.mytutor.co.uk/images/uploads/Prices-Hero-image-2021.png" alt="PHOTO: Student" />
+  </div>
+
 </div>
 
 <div class="row ai-feedback">
@@ -24,7 +30,7 @@
   <p> {{feedback}} </p>
 </div>
 
-<div class="row user-controls">
+<div class="user-controls">
   <button id="show-perfect" class="btn btn-primary btn-sm">Show Perfect Answer</button>
 </div>
 
