@@ -15,7 +15,7 @@ def create_question(subject, level, topic):
 
     options = {
         "model": "text-davinci-003",
-        "prompt": "Create a " + level + " " + subject + " example exam question. The exam question must be an question that can receive a text-based answer. I am  going to ask a student this question and ask you to mark their answer later, so make sure it is s a question that you would be confident ansering yourself correctly",
+        "prompt": "Create a " + level + " " + subject + " example exam question. It is very important that you do not give the answer. The exam question must be an question that can receive a text-based answer. Y",
         "temperature": 0.7,
         "max_tokens": 512,
         "top_p": 1,
@@ -29,7 +29,7 @@ def create_question(subject, level, topic):
     except Exception as e:
         print(f"Problem with: {e}")
 
-    return response
+    return response['choices'][0]["text"]
 
 
 def completionQuery(options):
@@ -49,7 +49,7 @@ def completionQuery(options):
     except Exception as e:
         print(f"Problem with: {e}")
 
-    return response['choices'][0]["text"]
+    return response
 
 
 def chatCompletionQuery(options):
