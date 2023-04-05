@@ -4,8 +4,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-
-
 <main class="container ai-question-container">
   <div id="loading-cont" class="loading-container">
       <div class="loader">
@@ -94,15 +92,44 @@
   });
 
   submit.addEventListener('click', function() {
-    loadingScreen.style.zIndex = 999
+    loadingScreen.style.display = "flex";
+  });
+
+  newTopic.addEventListener('click', function() {
+     loadingScreen.style.display = "flex";
+     axios.post('/new_topic')
+       .then(function(response) {
+              // Reload the /answer_question page after the response is received
+              loadingScreen.style.display = "none";
+              window.location.href = '/answer_question';
+          })
+          .catch(function(error) {
+              // Handle any errors that may occur during the request
+              console.error(error);
+          });
+    // write code here that would call a route on the backend called same again
+  });
+
+  takeMeHome.addEventListener('click', function() {
+    axios.post('/')
+      .then(function(response) {
+             // Reload the /answer_question page after the response is received
+             loadingScreen.style.display = "none";
+             window.location.href = '/';
+         })
+         .catch(function(error) {
+             // Handle any errors that may occur during the request
+             console.error(error);
+         });
+    // write code here that would call a route on the backend called same again
   });
 
   sameAgain.addEventListener('click', function() {
-     loadingScreen.style.zIndex = 999
+     loadingScreen.style.display = "flex";
      axios.post('/same_again')
        .then(function(response) {
               // Reload the /answer_question page after the response is received
-              console.log(response)
+              loadingScreen.style.display = "none";
               window.location.href = '/answer_question';
           })
           .catch(function(error) {

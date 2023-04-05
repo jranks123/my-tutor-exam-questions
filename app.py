@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import config
-# import marvin_functions
 import aifunctions
 
 app = Flask(__name__, static_folder=config.UPLOAD_FOLDER)
@@ -16,6 +15,12 @@ def page_not_found(e):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
+    subject = session['subject'] if session['subject'] else 'Maths'
+    level = session['level'] if session['level'] else 'GCSE'
+    exam_board = session["exam-board"] if session["exam-board"] else 'Edexcel'
+    topic = session["topic"] if session["topic"] else ""
+    marks = session["marks"] if session["marks"] else 3
+
     return render_template('generate_question.html', **locals())
 
 @app.route('/create_question', methods=['POST'])
@@ -57,6 +62,20 @@ def same_again():
     question = session["question"]
 
     question = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
+    session["question"] = question
+
+    return "Updated Question"
+
+@app.route('/new_topic', methods=['POST'])
+def new_topic():
+    subject = session['subject']
+    level = session['level']
+    exam_board = session["exam-board"]
+    topic = session["topic"]
+    marks = session["marks"]
+    question = session["question"]
+
+    question = aifunctions.create_question(subject, level, exam_board, marks, "")
     session["question"] = question
 
     return "Updated Question"

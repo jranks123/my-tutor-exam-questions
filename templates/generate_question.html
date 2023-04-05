@@ -16,13 +16,13 @@
             <label class="form-label" for="subject">Subject</label>
             <select class="form-select form-select-lg mb-3" name="subject" id="subject">
 
-              <option value="Maths">Maths</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Biology">Biology</option>
-              <option value="Biology">Physics</option>
-              <option value="English">English</option>
-              <option value="English">History</option>
-              <option value="English">Government and Politics</option>
+              <option value="Maths" {% if subject == 'Maths' %}selected{% endif %}>Maths</option>
+              <option value="Chemistry" {% if subject == 'Chemistry' %}selected{% endif %}>Chemistry</option>
+              <option value="Biology" {% if subject == 'Biology' %}selected{% endif %}>Biology</option>
+              <option value="Physics" {% if subject == 'Physics' %}selected{% endif %}>Physics</option>
+              <option value="English" {% if subject == 'English' %}selected{% endif %}>English</option>
+              <option value="History" {% if subject == 'History' %}selected{% endif %}>History</option>
+              <option value="Government and Politics" {% if subject == 'Government and Politics' %}selected{% endif %}>Government and Politics</option>
 
             </select>
           </div>
@@ -30,31 +30,31 @@
           <div class="mb-3">
             <label class="form-label" for="level">Level</label>
             <select class="form-select form-select-lg mb-3" name="level" id="level">
-              <option value="GCSE">GCSE</option>
-              <option value="A Level">A Level</option>
-              <option value="KS3">KS3</option>
+              <option value="GCSE" {% if level == 'GCSE' %}selected{% endif %}>GCSE</option>
+              <option value="A Level" {% if level == 'A Level' %}selected{% endif %}>A Level</option>
+              <option value="KS3" {% if level == 'KS3' %}selected{% endif %}>KS3</option>
             </select>
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="level">Exam board</label>
+            <label class="form-label" for="level"  value="{{ exam_board }}">Exam board</label>
             <select class="form-select form-select-lg mb-3" name="exam-board" id="exam-board">
-              <option value="AQA">AQA</option>
-              <option value="Edexcel">Edexcel</option>
-              <option value="OCR">OCR</option>
-              <option value="SQA">SQA</option>
+              <option value="AQA" {% if subject == 'AQA' %}selected{% endif %}>AQA</option>
+              <option value="Edexcel" {% if subject == 'Edexcel' %}selected{% endif %}>Edexcel</option>
+              <option value="OCR" {% if subject == 'OCR' %}selected{% endif %}>OCR</option>
+              <option value="SQA" {% if subject == 'SQA' %}selected{% endif %}>SQA</option>
             </select>
           </div>
 
 
       <div class="mb-3">
-        <label for="marks" class="form-label">Difficulty - Number of marks: <span id="marks_value">3</span></label>
-        <input type="range" class="form-range" min="0" max="15" id="marks" name="marks" value="3" onchange="marks_value(this)">
+        <label for="marks" class="form-label">Difficulty - Number of marks: <span id="marks_value"> {{ marks }}</span></label>
+        <input type="range" class="form-range" min="0" max="15" id="marks" name="marks" value="{{ marks }}" onchange="marks_value(this)">
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="topic">Topic (optional)</label>
-        <input type="text" class="form-control form-control-lg" name="topic" placeholder="eg. Earthquakes, pythagaros theorum, weasel mating habitss">
+        <input type="text" class="form-control form-control-lg" name="topic"  value="{{ topic }}">
       </div>
 
       <div class="gq-button">
@@ -68,14 +68,25 @@
     <img src="{{ url_for('static', filename='images/bg2.png') }}">
   </div>
 
-  <div class="loader">
-       <span class="robot"></span>
-       <span class="loading-text">Loading AI...</span>
+</div>
+<div id="loading-cont" class="loading-container">
+    <div class="loader">
+      <span class="robot"></span>
+      <span class="loading-text">Loading AI...</span>
   </div>
+</div>
 
 </main>
 
 <script>
+
+  var generateQuestionButton = document.getElementById('submit');
+
+  generateQuestionButton.addEventListener('click', function() {
+    loadingScreen.style.display = "flex";
+  });
+
+
   function marks_value(marks) {
     const marks_display = document.getElementById("marks_value");
     console.log(marks.value)
