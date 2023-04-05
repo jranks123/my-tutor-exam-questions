@@ -23,15 +23,48 @@ def create_question():
     # Get the question data from the form
     subject = request.form.get('subject')
     level = request.form.get('level')
+    marks = request.form.get('marks')
     topic = request.form.get('topic')
+    exam_board = request.form.get('exam-board')
 
     # Call your function to create the question
-    question = aifunctions.create_question(subject, level, topic)
+    question = aifunctions.create_question(subject, level, exam_board, marks, topic)
     session["question"] = question
+    session["subject"] = subject
+    session["level"] = level
+    session["exam-board"] = exam_board
 
     # Redirect to the questions page
+    return redirect(url_for('answer_question'))
+
+
+@app.route('/submit_answer', methods=['POST'])
+def submit_answer():
+
+    # Get the question data from the form
+    answer = request.form.get('answer')
+    session['answer'] = answer
+
+    question = session['question']
+    subject = session['subject']
+    level = session['level']
+    exam_board = session["exam-board"]
+
+    response = aifunctions.analyse_answer(subject, level, exam_board, question, answer)
+
+    feedback = response['feedback']
+    perfect_answer = response['perfect_answer']
+
+
     return render_template('answer_question.html', **locals())
 
+
+
+@app.route('/answer_question', methods=['GET'])
+def answer_question():
+    question = session['question']
+    answer = ""
+    return render_template('answer_question.html', **locals())
 
 
 
