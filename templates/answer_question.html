@@ -4,32 +4,34 @@
 
 
 <main class="container">
-  <div class="bg-light p-5 rounded mt-5">
-    <h2>Question:</h2>
+  <div class="row ai-question">
+    <h1>Question:</h1>
     <p class="lead">{{ question }}
     </p>
   </div>
 
-<form class="" action="{{ url_for('submit_answer') }}" method="post">
-  <div class="mb-3">
-    <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
-  </div>
-  <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
-</form>
+<div class="row user-answer">
+  <form class="" action="{{ url_for('submit_answer') }}" method="post">
+    <div class="mb-3">
+      <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
+    </div>
+    <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
+  </form>
+</div>
 
-<br>
-<h3>Feedback</h3>
-<p> {{feedback}} </p>
-<br>
+<div class="row ai-feedback">
+  <h2>Feedback</h2>
+  <p> {{feedback}} </p>
+</div>
 
-<div>
+<div class="row user-controls">
   <button id="show-perfect" class="btn btn-primary btn-sm">Show Perfect Answer</button>
 </div>
 
 
-<div id="perfect-answer" class="hidden">
+<div id="perfect-answer" class="hidden ai-perfect-answer">
   <h3>Perfect Answer</h3>
-  <p> {{perfect_answer}}
+  <p> {{perfect_answer}} </p>
 </div>
 
 </main>

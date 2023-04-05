@@ -22,7 +22,10 @@ body {
     margin-bottom: 0.5em;
   }
 
-
+  .bg-gradient {
+    background: rgb(255,255,255);
+    background: linear-gradient(167deg, rgb(255,255,255) 1%, rgb(231, 230, 227) 47%, rgb(221, 220, 216) 100%);
+  }
 
 
   .gq-row {
@@ -83,4 +86,33 @@ body {
 
   .show {
     display: block;
+  }
+
+
+  .ai-question {
+    padding: 1rem 2rem;
+    margin-bottom: 1rem;
+    background: #fff;
+    border: 12px solid #242424;
+    border-radius: 12px;
+  }
+
+  .ai-question h1, .ai-question h2 {
+    color: #545454;
+  }
+
+  .ai-question .lead {
+    font-size: 24px;
+    font-weight: 600;
+    color: #242424;
+  }
+
+  .row.user-answer {
+    background: #fff;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .user-answer textarea {
+    border-bottom: 4px solid #242424;
   }
