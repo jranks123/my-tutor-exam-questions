@@ -4,11 +4,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+
+
 <main class="container ai-question-container">
+  <div id="loading-cont" class="loading-container">
+      <div class="loader">
+        <span class="robot"></span>
+        <span class="loading-text">Loading AI...</span>
+    </div>
+  </div>
   <div class="row ai-question">
     <h1>Question:</h1>
     {% for para in question %}
         <span class="lead">{{para}}</span>
+        <br>
     {% endfor %}
 
   </div>
@@ -19,7 +28,7 @@
       <div class="mb-3">
         <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
       </div>
-      <button type="submit" id="submit" class="btn btn-primary btn-lg {{submit_class}}">Submit Answer</button>
+      <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
     </form>
   </div>
   <div class="user-answer-image">
@@ -28,11 +37,12 @@
 
 </div>
 
-<div id="all-the-feedback" class="{{answers_class}}"
-  <div class="row ai-feedback">
+<div id="all-the-feedback" class="{{answers_class}}">
+  <div class="ai-perfect-answer">
     <h2>Feedback</h2>
     {% for para in feedback %}
             <span>{{para}}</span>
+            <br>
         {% endfor %}
   </div>
 
@@ -48,8 +58,10 @@
     <h2> &#x2B50; Star Answer &#x2B50;</h2>
       {% for para in perfect_answer %}
           <span>{{para}}</span>
+          <br>
       {% endfor %}
   </div>
+
 
 
 </div>
@@ -70,6 +82,9 @@
   var sameAgain = document.getElementById('same-again');
   var newTopic = document.getElementById('new-topic');
   var takeMeHome = document.getElementById('take-me-home');
+  var loadingScreen = document.getElementById('loading-cont')
+  var submitButton = document.getElementById('submit')
+
 
   console.log("Hello")
   showPerfectButton.addEventListener('click', function() {
@@ -78,7 +93,22 @@
     showPerfectButton.classList.add('hidden');
   });
 
+  submit.addEventListener('click', function() {
+    loadingScreen.style.zIndex = 999
+  });
+
   sameAgain.addEventListener('click', function() {
+     loadingScreen.style.zIndex = 999
+     axios.post('/same_again')
+       .then(function(response) {
+              // Reload the /answer_question page after the response is received
+              console.log(response)
+              window.location.href = '/answer_question';
+          })
+          .catch(function(error) {
+              // Handle any errors that may occur during the request
+              console.error(error);
+          });
     // write code here that would call a route on the backend called same again
   });
 

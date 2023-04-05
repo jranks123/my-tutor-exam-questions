@@ -89,7 +89,7 @@ body {
   .show {
     display: block;
   }
-  .ai-question-container {
+  .estion-container {
     width: calc(100% - 100px);
   }
 
@@ -97,13 +97,14 @@ body {
     padding: 1rem 2rem;
     margin-bottom: 1rem;
     background: #fff;
-    border: 12px solid #242424;
-    border-radius: 12px;
+    border: 10px solid #242424;
+    border-radius: 10px;
 
   }
 
   .ai-perfect-answer, .ai-feedback{
     border: 6px solid #242424;
+    border-radius: 6px;
     padding: 20px;
     background: #fff;
   }
@@ -160,6 +161,50 @@ body {
     right: -100px;
     display: none;
   }
+
+  .loading-container {
+           background-color: rgba(244, 244, 244, 0.8);
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           width: 100vw;
+          position: fixed;
+           top: 0;
+           left: 0;
+           z-index: -1;
+       }
+
+       .loader {
+           display: inline-block;
+           font-size: 30px;
+           text-align: center;
+       }
+
+       .robot {
+           display: inline-block;
+           position: relative;
+           animation: move 2s linear infinite;
+       }
+
+       .robot::before {
+           content: "🤖";
+       }
+
+       @keyframes move {
+           0%, 100% {
+               transform: translateY(0);
+           }
+           50% {
+               transform: translateY(-10px);
+           }
+       }
+
+       .loading-text {
+           display: block;
+           margin-top: 15px;
+           font-family: 'Arial', sans-serif;
+       }
 
   @media (min-width: 998px) {
     .user-answer-image img {

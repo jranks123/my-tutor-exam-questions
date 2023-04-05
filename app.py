@@ -41,6 +41,7 @@ def create_question():
     session["level"] = level
     session["exam-board"] = exam_board
     session["marks"] = marks
+    session["topic"] = topic
 
     # Redirect to the questions page
     return redirect(url_for('answer_question'))
@@ -53,11 +54,12 @@ def same_again():
     exam_board = session["exam-board"]
     topic = session["topic"]
     marks = session["marks"]
+    question = session["question"]
 
-    question = aifunctions.same_again(question, subject, level, exam_board, marks, topic)
+    question = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
     session["question"] = question
 
-    return render_template('answer_question.html', **locals())
+    return "Updated Question"
 
 @app.route('/submit_answer', methods=['POST'])
 def submit_answer():
@@ -85,7 +87,10 @@ def submit_answer():
 
 @app.route('/answer_question', methods=['GET'])
 def answer_question():
+    print("****")
+    print("question")
     question = session['question']
+    print(question)
     answers_class = "hidden"
     submit_class = "show"
     answer = ""
