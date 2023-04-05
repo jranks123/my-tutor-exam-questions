@@ -3,9 +3,10 @@
 {% block body %}
 <main class="container">
   <div class="bg-light p-5 rounded mt-5">
-    <h1>Some Page</h1>
+    <h1>Exam Question Generator</h1>
     <p class="lead">
-        Generate an exam question
+      Use the form below to choose the subject, level and topic of the question you want to generate.
+      You can repeat this process to create as many new unique questions you want to test yourself with.
     </p>
 
 
@@ -15,7 +16,7 @@
         <label class="form-label" for="subject">Subject</label>
         <select name="subject" id="subject">
 
-          <option value="Maths"">Maths</option>
+          <option value="Maths">Maths</option>
           <option value="Chemistry">Chemistry</option>
           <option value="Biology">Biology</option>
           <option value="English">English</option>
@@ -28,12 +29,23 @@
         <select name="level" id="level">
           <option value="GCSE">GCSE</option>
           <option value="A Level">A Level</option>
+          <option value="A Level">KS3</option>
         </select>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="topic">Topic</label>
         <input type="text" class="form-control" name="topic" placeholder="eg. Earthquakes, pythagaros theorum, weasel mating habitss">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="grade">Difficulty</label>
+        <select name="grade" id="grade">
+          <option value="any">Any</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
       </div>
 
       <button type="submit" id="submit" class="btn btn-primary btn-lg">Generate a question</button>
