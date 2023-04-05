@@ -2,6 +2,35 @@ import openai
 import config, os
 
 openai.api_key = config.OPENAI_API_KEY
+print("key = " + openai.api_key)
+
+def create_question(subject, level, topic):
+    """Create a exam question. The exam question must be an question that can receive a text-based
+    answer. I'm going to ask a student this question and ask you to mark their answer later, so make sure it's a question that you would
+    be confident ansering yourself correctly
+    """
+    print(subject)
+    print(level)
+    print(topic)
+
+    options = {
+        "model": "text-davinci-003",
+        "prompt": "Create a " + level + " " + subject + " example exam question. The exam question must be an question that can receive a text-based answer. I am  going to ask a student this question and ask you to mark their answer later, so make sure it is s a question that you would be confident ansering yourself correctly",
+        "temperature": 0.7,
+        "max_tokens": 512,
+        "top_p": 1,
+        "frequency_penalty": 0,
+        "presence_penalty": 0
+    }
+
+    try:
+        response = openai.Completion.create(**options)
+        print(response)
+    except Exception as e:
+        print(f"Problem with: {e}")
+
+    return response
+
 
 def completionQuery(options):
     """
@@ -19,8 +48,8 @@ def completionQuery(options):
         response = openai.Completion.create(**options)
     except Exception as e:
         print(f"Problem with: {e}")
-    
-    return response
+
+    return response['choices'][0]["text"]
 
 
 def chatCompletionQuery(options):
