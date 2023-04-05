@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import config
-import marvin_functions
+# import marvin_functions
 import aifunctions
 
 app = Flask(__name__, static_folder=config.UPLOAD_FOLDER)
