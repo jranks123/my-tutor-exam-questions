@@ -76,4 +76,16 @@
 
 
 </main>
+
+<script>
+  function marks_value(marks) {
+    const marks_display = document.getElementById("marks_value");
+    if (marks.value != 0){
+      marks_display.innerHTML = marks.value;
+    } else {
+      marks_display.innerHTML = "Any";
+    }
+    
+  }
+</script>
 {% endblock %}
