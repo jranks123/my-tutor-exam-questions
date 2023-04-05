@@ -2,55 +2,61 @@
 
 {% block body %}
 <main class="container">
-  <div class="bg-light p-5 rounded mt-5">
-    <h1>Generate an exam question</h1>
-    <p class="lead">
-      Use the form below to choose the subject, level and topic of the question you want to generate.
-      You can repeat this process to create as many new unique questions you want to test yourself with.
-    </p>
-
-    <form class="" action="{{ url_for('create_question') }}" method="post">
-
-      <div class="mb-3">
-        <label class="form-label" for="subject">Subject</label>
-        <select name="subject" id="subject">
-
-          <option value="Maths">Maths</option>
-          <option value="Chemistry">Chemistry</option>
-          <option value="Biology">Biology</option>
-          <option value="English">English</option>
-
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="level">Level</label>
-        <select name="level" id="level">
-          <option value="GCSE">GCSE</option>
-          <option value="A Level">A Level</option>
-          <option value="KS3">KS3</option>
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="level">Exam board</label>
-        <select name="level" id="level">
-          <option value="any">Any</option>
-          <option value="aqa">AQA</option>
-          <option value="edexel">EDEXCEL</option>
-          <option value="cambridge">Cambridge National</option>
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="topic">Topic</label>
-        <input type="text" class="form-control" name="topic" placeholder="eg. Earthquakes, pythagaros theorum, weasel mating habitss">
-      </div>
-
-      <button type="submit" id="submit" class="btn btn-primary btn-lg">Generate a question</button>
-
-    </form>
+  <div class="row gq-row">
+    <div class="col gq-text">
+        <h1>Generate an exam question</h1>
+        <p class="lead">
+          Use the form below to choose the subject, level and topic of the question you want to generate.
+          You can repeat this process to create as many new unique questions you want to test yourself with.
+        </p>
+    
+        <form class="gq-form" action="{{ url_for('create_question') }}" method="post">
+    
+          <div class="mb-3">
+            <label class="form-label" for="subject">Subject</label>
+            <select name="subject" id="subject">
+    
+              <option value="Maths">Maths</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Biology">Biology</option>
+              <option value="English">English</option>
+    
+            </select>
+          </div>
+    
+          <div class="mb-3">
+            <label class="form-label" for="level">Level</label>
+            <select name="level" id="level">
+              <option value="GCSE">GCSE</option>
+              <option value="A Level">A Level</option>
+              <option value="KS3">KS3</option>
+            </select>
+          </div>
+    
+          <div class="mb-3">
+            <label class="form-label" for="level">Exam board</label>
+            <select name="level" id="level">
+              <option value="any">Any</option>
+              <option value="aqa">AQA</option>
+              <option value="edexel">EDEXCEL</option>
+              <option value="cambridge">Cambridge National</option>
+            </select>
+          </div>
+    
+          <div class="mb-3">
+            <label class="form-label" for="topic">Topic</label>
+            <input type="text" class="form-control" name="topic" placeholder="eg. Earthquakes, pythagaros theorum, weasel mating habitss">
+          </div>
+    
+          <button type="submit" id="submit" class="btn btn-primary btn-lg">Generate a question</button>
+    
+        </form>
+    </div>
+    <div class="col gq-image">
+      <img src="{{ url_for('static', filename='images/bg2.png') }}">
+    </div>
   </div>
+  
 
 
   <div class="p-3 rounded">
