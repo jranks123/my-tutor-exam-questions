@@ -76,3 +76,11 @@ body {
     justify-content: center;
     margin-top: 2rem;
   }
+
+  .hidden {
+    display: none;
+  }
+
+  .show {
+    display: block;
+  }
