@@ -14,7 +14,10 @@
           <option value="Maths"">Maths</option>
           <option value="Chemistry">Chemistry</option>
           <option value="Biology">Biology</option>
+          <option value="Biology">Physics</option>
           <option value="English">English</option>
+          <option value="English">History</option>
+          <option value="English">Government and Politics</option>
 
         </select>
       </div>
@@ -28,8 +31,23 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="topic">Topic</label>
-        <input type="text" class="form-control" name="topic" placeholder="eg. Earthquakes, pythagaros theorum, weasel mating habitss">
+        <label class="form-label" for="exam-board">Exam Board</label>
+        <select name="exam-board" id="exam-board">
+          <option value="AQA">AQA</option>
+          <option value="Edexcel">Edexcel</option>
+          <option value="OCR">OCR</option>
+          <option value="SQA">SQA</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="marks">Number of marks</label>
+        <input type="text" class="form-control" name="marks" placeholder="eg. 1">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="marks">Topic (optional)</label>
+        <input type="text" class="form-control" name="topic" placeholder="">
       </div>
 
       <button type="submit" id="submit" class="btn btn-primary btn-lg">Generate a question</button>

@@ -1,10 +1,48 @@
 {% extends 'includes/layout.html' %}
 
 {% block body %}
+
+
 <main class="container">
   <div class="bg-light p-5 rounded mt-5">
     <p class="lead">{{ question }}
     </p>
   </div>
+
+<form class="" action="{{ url_for('submit_answer') }}" method="post">
+  <div class="mb-3">
+    <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
+  </div>
+  <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
+</form>
+
+<br>
+<h3>Feedback</h3>
+<p> {{feedback}} </p>
+<br>
+
+<div>
+  <button id="show-perfect" class="btn btn-primary btn-sm">Show Perfect Answer</button>
+</div>
+
+
+<div id="perfect-answer" class="hidden">
+  <h3>Perfect Answer</h3>
+  <p> {{perfect_answer}}
+</div>
+
 </main>
+
+<script>
+  var showPerfectButton = document.getElementById('show-perfect');
+  var perfectAnswerDiv = document.getElementById('perfect-answer');
+
+  console.log("Hello")
+  showPerfectButton.addEventListener('click', function() {
+    perfectAnswerDiv.classList.remove('hidden');
+    perfectAnswerDiv.classList.add('show');
+    showPerfectButton.classList.add('hidden');
+  });
+</script>
+
 {% endblock %}
