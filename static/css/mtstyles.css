@@ -105,9 +105,13 @@ body {
   }
 
   .feedback-div {
-    padding: 0rem 2.6rem;
+    padding: 1rem 2.6rem;
   }
 
+  #the-answer {
+    height: 300px;
+  }
+  
   .ai-star-answer {
     border: 6px solid #242424;
     border-radius: 6px;

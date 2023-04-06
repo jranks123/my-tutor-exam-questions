@@ -24,7 +24,7 @@
   <div class="user-answer-form">
     <form class="" onsubmit="handleSubmit(event)" method="post">
       <div class="mb-3">
-        <textarea name="answer" rows="8" cols="80">{{ answer }}</textarea>
+        <textarea id="the-answer" name="answer" rows="8" cols="80">{{ answer }}</textarea>
       </div>
       <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
     </form>
@@ -64,7 +64,7 @@
   <div id="loading-cont" class="loading-container">
       <div class="loader">
         <span class="robot"></span>
-        <span class="loading-text">Analysing answer...</span>
+        <span class="loading-text">Thinking...</span>
     </div>
   </div>
 
@@ -120,6 +120,8 @@
 }
 
 
+
+
   function handleSubmit(event) {
       // Prevent the form from submitting normally
       event.preventDefault();
@@ -134,7 +136,7 @@
           // Update the page with the result
           loadingScreen.style.display = "none";
           feedbackSection.classList.remove('hidden')
-          feedbackPara.textContent = response.data.result;
+          feedbackPara.innerHTML = response.data.result.join('<br>');
 
 
           // createConfettiAnimation();
@@ -154,7 +156,7 @@
             // Update the page with the result
             loadingScreen.style.display = "none";
             feedbackSection.classList.remove('hidden')
-            starAnswerPara.textContent = response.data.result;
+            starAnswerPara.innerHTML = response.data.result.join('<br>');
           })
           .catch(function(error) {
             // Handle errors here

@@ -38,7 +38,7 @@ def create_question():
 
 
     # Call your function to create the question
-    question = aifunctions.create_question(subject, level, exam_board, marks, topic)
+    question = aifunctions.create_question(subject, level, exam_board, marks, topic, "")
     session["question"] = question
     session["subject"] = subject
     session["level"] = level
@@ -73,7 +73,7 @@ def new_topic():
     marks = session["marks"]
     question = session["question"]
 
-    question = aifunctions.create_question(subject, level, exam_board, marks, "")
+    question = aifunctions.create_question(subject, level, exam_board, marks, "", "")
     session["question"] = question
 
     return "Updated Question"
@@ -136,6 +136,7 @@ def answer_question():
     answers_class = "hidden"
     submit_class = "show"
     answer = ""
+
     return render_template('answer_question.html', **locals())
 
 

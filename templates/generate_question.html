@@ -18,9 +18,17 @@
 
               <option value="Maths" {% if subject == 'Maths' %}selected{% endif %}>Maths</option>
               <option value="Chemistry" {% if subject == 'Chemistry' %}selected{% endif %}>Chemistry</option>
+              <option value="English" {% if subject == 'English' %}selected{% endif %}>English</option>
               <option value="Biology" {% if subject == 'Biology' %}selected{% endif %}>Biology</option>
               <option value="Physics" {% if subject == 'Physics' %}selected{% endif %}>Physics</option>
-              <option value="English" {% if subject == 'English' %}selected{% endif %}>English</option>
+              <option value="English Literature" {% if subject == 'English Literature' %}selected{% endif %}>English Literature</option>
+              <option value="English Language" {% if subject == 'English Language' %}selected{% endif %}>English Language</option>
+              <option value="Science" {% if subject == 'Science' %}selected{% endif %}>Science</option>
+              <option value="Economics" {% if subject == 'Economics' %}selected{% endif %}>Economics</option>
+              <option value="Psychology" {% if subject == 'Psychology' %}selected{% endif %}>Psychology</option>
+              <option value="French" {% if subject == 'French' %}selected{% endif %}>French</option>
+              <option value="Spanish" {% if subject == 'Spanish' %}selected{% endif %}>Spanish</option>
+              <option value="Business Studies" {% if subject == 'Business Studies' %}selected{% endif %}>Business Studies</option>
               <option value="History" {% if subject == 'History' %}selected{% endif %}>History</option>
               <option value="Government and Politics" {% if subject == 'Government and Politics' %}selected{% endif %}>Government and Politics</option>
 
@@ -33,12 +41,15 @@
               <option value="GCSE" {% if level == 'GCSE' %}selected{% endif %}>GCSE</option>
               <option value="A Level" {% if level == 'A Level' %}selected{% endif %}>A Level</option>
               <option value="KS3" {% if level == 'KS3' %}selected{% endif %}>KS3</option>
+              <option value="IB" {% if level == 'IB' %}selected{% endif %}>IB</option>
+              <option value="KS2" {% if level == 'KS2' %}selected{% endif %}>KS2</option>
             </select>
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="level"  value="{{ exam_board }}">Exam board</label>
+            <label class="form-label" for="level"  value="{{ exam_board }}">Exam board (optional)</label>
             <select class="form-select form-select-lg mb-3" name="exam-board" id="exam-board">
+              <option value="" {% if subject == '' %}selected{% endif %}"></option>
               <option value="AQA" {% if subject == 'AQA' %}selected{% endif %}>AQA</option>
               <option value="Edexcel" {% if subject == 'Edexcel' %}selected{% endif %}>Edexcel</option>
               <option value="OCR" {% if subject == 'OCR' %}selected{% endif %}>OCR</option>
@@ -46,16 +57,17 @@
             </select>
           </div>
 
+        <div class="mb-3">
+          <label class="form-label" for="topic">Topic (optional)</label>
+          <input type="text" class="form-control form-control-lg" name="topic"  value="{{ topic }}">
+        </div>
 
       <div class="mb-3">
         <label for="marks" class="form-label">Difficulty - Number of marks: <span id="marks_value"> {{ marks }}</span></label>
         <input type="range" class="form-range" min="0" max="15" id="marks" name="marks" value="{{ marks }}" onchange="marks_value(this)">
       </div>
 
-      <div class="mb-3">
-        <label class="form-label" for="topic">Topic (optional)</label>
-        <input type="text" class="form-control form-control-lg" name="topic"  value="{{ topic }}">
-      </div>
+
 
       <div class="gq-button">
         <button type="submit" id="submit" class="btn btn-primary btn-lg">Generate a question</button>
