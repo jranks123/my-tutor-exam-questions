@@ -86,8 +86,8 @@ def get_feedback(subject, level, exam_board, question, answer, marks):
 
 def get_star_answer(subject, level, exam_board, question, answer, marks):
     messageBase = get_message_base(subject, level, exam_board, question)
-    messageVariant = '''Give a perfect answer to this question. This answer should get {} marks in a {} {} exam for the question.
-    Remember to show all your working. Your answer should be in the format of a pupil writing an answer in an exam. Do not repeat the question back in your answer. Use \n for new lines'''.format(marks, subject, level, question)
+    messageVariant = '''Give a perfect answer to this question. This answer should get {} marks in a {} {} {} exam for the question. Use your knowledge of {} past exams and their marking criteria to write the answer.
+    Remember to show all your working. Your answer should be in the format of a pupil writing an answer in an exam. Do not repeat the question back in your answer. Use \n for new lines'''.format(marks, subject, exam_board, exam_board, level, question)
     message = messageBase+messageVariant
     print(message)
 
