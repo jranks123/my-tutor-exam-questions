@@ -32,7 +32,7 @@ body {
   }
 
   .navbar-mt .nav-item {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .navbar-mt .dropdown-menu {
@@ -42,6 +42,32 @@ body {
   .navbar-mt.navbar-expand-md .navbar-collapse {
     justify-content: center;
   }
+
+  .navbar-mt .contact-number {
+    font-weight: 600;
+    display: none;
+    padding-right: 1em;
+  }
+
+  @media (min-width: 1080px) {
+    .navbar-mt .contact-number {
+      display: inline-block;
+    }
+  }
+
+  .navbar-mt .navbar-secondary {
+    display: none;
+  }
+
+  @media (min-width: 940px) {
+    .navbar-mt .navbar-secondary {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+
+
 
   /* Question Genetator Page */
 
