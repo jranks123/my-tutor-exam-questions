@@ -31,12 +31,42 @@ body {
     background: #F7F2ED;
   }
 
+  .navbar-mt a {
+    text-decoration: none;
+    color: #242424;
+  }
+
   .navbar-mt .nav-item {
     font-size: 16px;
   }
 
   .navbar-mt .dropdown-menu {
     background: #fff;
+  }
+  .navbar-mt .dropdown-item a {
+    display: flex;
+    align-items: 
+  }
+
+  .navbar-mt .dropdown-item a:hover {
+    background-color: #f5f5f5;
+  }
+
+  .dropdown-item .option-text {
+    display: inline-block;
+  }
+  .dropdown-item .option-text > * {
+    display: block;
+    clear: both;
+    padding-left: 6px;
+  }
+  .dropdown-item .option-text .main-text {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .dropdown-item .option-text .sub-text {
+    font-size: 12px;
+    font-weight: 500;
   }
 
   .navbar-mt.navbar-expand-md .navbar-collapse {
