@@ -12,11 +12,17 @@
     </div>
   </div>
 
-  <div class="ai-question">
-    {% for para in question %}
-        <span class="lead">{{para.replace('Question: ', '')}}</span>
-        <br>
-    {% endfor %}
+  <div class="ai-question row">
+    <div class="ai-question-image col-2">
+      <img src="{{ url_for('static', filename='images/chip2.png') }}">
+    </div>
+    <div class="speech-bubble col-10">
+      {% for para in question %}
+          <span class="lead">{{para.replace('Question: ', '')}}</span>
+          <br>
+      {% endfor %}
+    </div>
+    
 
   </div>
 

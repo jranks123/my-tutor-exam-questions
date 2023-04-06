@@ -140,7 +140,7 @@ body {
     padding: 1rem 2rem;
     margin-bottom: 1rem;
     background: transparent;
-    border-bottom: 2px dotted #333;
+    border-bottom: 2px dashed #ccc;
   }
 
   .feedback-div {
@@ -167,6 +167,7 @@ body {
     font-size: 22px;
     font-weight: 300;
     color: #242424;
+    padding-left: 1em;
   }
 
   .user-answer {
@@ -180,7 +181,7 @@ body {
 
 
   .user-answer textarea {
-    border-bottom: 4px solid #242424;
+    border-bottom: 2px solid #242424;
     opacity: 0.9;
     width: 100%;
     max-width: 600px;
@@ -212,6 +213,10 @@ body {
     object-fit: contain;
     right: -100px;
     display: none;
+  }
+
+  .user-answer-form button#submit {
+    margin-left: 0;
   }
 
   #show-perfect {
@@ -287,4 +292,40 @@ body {
     .user-answer-image img {
         display: block;
     }
+  }
+
+  .speech-bubble {
+    position: relative;
+    background: #fff;
+    border-radius: .4em;
+    display: block;
+    padding: 2rem 1rem;
+  }
+  
+  .speech-bubble:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #fff;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -10px;
+    margin-left: -20px;
+  }
+
+  .ai-question-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-question-image img {
+    height: auto;
+    width: auto;
+    max-width: 98%;
+    max-height: 140px;
   }
