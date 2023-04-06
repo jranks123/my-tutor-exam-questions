@@ -139,8 +139,8 @@ body {
   .ai-question {
     padding: 1rem 2rem;
     margin-bottom: 1rem;
-    background: #fff;
-
+    background: transparent;
+    border-bottom: 2px dotted #333;
   }
 
   .feedback-div {
@@ -202,6 +202,7 @@ body {
   .user-answer-image {
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
   }
 
   .user-answer-image img {
@@ -218,10 +219,26 @@ body {
   }
 
   .next-q-button-div {
-    margin-left: 2rem;
-    margin-right: 2rem;
-    margin-bottom: 2rem;
+    margin: 1rem 2rem;
+
   }
+
+  .next-q-button-div .btn {
+    margin: 6px 0;
+    width: 100%;
+  }
+
+  @media (min-width: 1200px) {
+    .next-q-button-div {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .next-q-button-div .btn {
+      width: auto;
+    }
+  }
+
 
   .loading-container {
            background-color: rgba(244, 244, 244, 0.8);
