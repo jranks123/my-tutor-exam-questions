@@ -5,8 +5,11 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <main class="container ai-question-container">
-  <div class="row ai-question">
-    <h1>Question:</h1>
+  <div class="answer-page-title">
+    <h1>Example {{ exam_board }} {{ level }} {{ subject }} exam questions </h1>
+  </div>
+
+  <div class="ai-question">
     {% for para in question %}
         <span class="lead">{{para}}</span>
         <br>
@@ -27,6 +30,33 @@
     <img src="https://cdn.mytutor.co.uk/images/uploads/Prices-Hero-image-2021.png" alt="PHOTO: Student" />
   </div>
 
+  <div id="all-the-feedback" class="hidden">
+    <div class="feedback-div">
+      <h2>Feedback</h2>
+      <p id='feedback'> </p>
+    </div>
+
+    <div class="user-controls">
+      <button id="show-perfect" class="btn btn-primary btn-lg">Show Star Answer</button>
+    </div>
+
+    <div id="star-answer-div" class="hidden ai-star-answer">
+      <h2> &#x2B50; Star Answer &#x2B50;</h2>
+      <p id=star-answer-para> </p>
+    </div>
+
+    <div class="next-q-button-div">
+      <button id="same-again" class="btn btn-primary btn-controls btn-lg">Give me another question like this!</button>
+      <button id="new-topic" class="btn btn-primary btn-controls btn-lg">Give me a {{ subject }} {{ level }}  question on a different topic</button>
+      <button id="take-me-home" class="btn btn-primary btn-lg">Let me choose a different subject/level/topic </button>
+    </div>
+
+
+  </div>
+
+  <br>
+  <br>
+
 </div>
 
 <div id='container-for-feedback'>
@@ -36,35 +66,11 @@
         <span class="loading-text">Loading AI...</span>
     </div>
   </div>
-  <div id="all-the-feedback" class="hidden">
-    <div class="feedback-div ai-star-answer">
-      <h2>Feedback</h2>
-      <p id='feedback'> </p>
-    </div>
 
-    <br>
 
-    <div class="user-controls">
-      <button id="show-perfect" class="btn btn-primary btn-lg">Show Star Answer</button>
-    </div>
-
-    <br>
-
-    <div id="star-answer-div" class="hidden ai-star-answer">
-      <h2> &#x2B50; Star Answer &#x2B50;</h2>
-      <p id=star-answer-para> </p>
-    </div>
-
-  </div>
 </div>
 
 <br>
-
-<button id="same-again" class="btn btn-primary btn-lg">Give me another question like this!</button>
-<button id="new-topic" class="btn btn-primary btn-lg">Give me a {{ subject }} {{ level }}  question on a different topic</button>
-<button id="take-me-home" class="btn btn-primary btn-lg">Let me choose a different subject/level/topic </button>
-
-<br><br>
 
 </main>
 
@@ -82,6 +88,36 @@
   var feedbackPara = document.getElementById('feedback')
 
 
+  function createConfettiAnimation() {
+    const duration = 500; // Duration of the confetti animation in milliseconds
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 10, spread: 360, ticks: 60, zIndex: 9999 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    (function frame() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return;
+        }
+
+        const particles = Math.random() * (timeLeft / duration) * 100;
+        for (let i = 0; i < particles; i++) {
+            confetti(Object.assign({}, defaults, {
+                particleCount: 4,
+                origin: { x: Math.random(), y: Math.random() - 0.2 },
+                colors: ['#03CCBB', '#FFAC00', '#FFA4CB'], // Add or change colors here
+                scalar: randomInRange(2, 3),
+            }));
+        }
+
+        requestAnimationFrame(frame);
+    })();
+}
+
 
   function handleSubmit(event) {
       // Prevent the form from submitting normally
@@ -93,11 +129,19 @@
       // Make a POST request to the Flask route using Axios
       axios.post('/get-feedback', formData)
         .then(function(response) {
-          console.log(response)
+
           // Update the page with the result
           loadingScreen.style.display = "none";
           feedbackSection.classList.remove('hidden')
           feedbackPara.textContent = response.data.result;
+
+        
+          // createConfettiAnimation();
+
+
+
+          console.log(response)
+
         })
         .catch(function(error) {
           // Handle errors here
@@ -173,5 +217,7 @@
 
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
 
 {% endblock %}

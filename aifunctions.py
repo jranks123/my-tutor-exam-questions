@@ -10,8 +10,8 @@ def create_question(subject, level, exam_board, number_of_marks, topic, sameAgai
     number_of_marks = number_of_marks if number_of_marks else 3
     topic_sentance = '''The question should be on the topic of {}.'''.format(topic) if topic else ""
 
-    message = '''Create a {} {} {} example exam question, worth {} mark(s). {} Display the number of marks it could receive in the format: "Marks available: X". {} It is important that the number of marks is exactly {}.
-    It is very important that you do not give the answer. The exam question must be an question that can receive a text-based answer.'''.format(subject, level, exam_board, number_of_marks, sameAgainSentence, topic_sentance, number_of_marks, exam_board)
+    message = '''Create a {} {} {} example exam question, worth {} mark(s). {} Return your answer in the format `Question: <question> \n [<number of marks> Mark(s)]`. {} It is important that the number of marks is exactly {}.
+    It is very important that you do not give the answer. The exam question must be an question that can receive a text-based answer. Do not return your answer in quotes '''.format(subject, level, exam_board, number_of_marks, sameAgainSentence, topic_sentance, number_of_marks, exam_board)
 
     print(message)
 

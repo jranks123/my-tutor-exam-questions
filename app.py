@@ -121,6 +121,14 @@ def get_star_answer():
 
 @app.route('/answer_question', methods=['GET'])
 def answer_question():
+
+    subject = session['subject']
+    level = session['level']
+    exam_board = session["exam-board"]
+    topic = session["topic"]
+    marks = session["marks"]
+    question = session["question"]
+
     print("****")
     print("question")
     question = session['question']

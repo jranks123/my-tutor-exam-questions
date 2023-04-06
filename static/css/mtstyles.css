@@ -97,15 +97,18 @@ body {
     padding: 1rem 2rem;
     margin-bottom: 1rem;
     background: #fff;
-    border: 10px solid #242424;
-    border-radius: 10px;
 
   }
 
-  .ai-star-answer, .ai-feedback{
+  .feedback-div {
+    padding: 0rem 2.6rem;
+  }
+
+  .ai-star-answer {
     border: 6px solid #242424;
     border-radius: 6px;
-    padding: 20px;
+    padding: 1rem;
+    margin: 2rem;
     background: #fff;
   }
 
@@ -114,8 +117,8 @@ body {
   }
 
   .ai-question .lead {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 300;
     color: #242424;
   }
 
@@ -146,7 +149,7 @@ body {
 
   .user-answer-form {
     z-index: 10;
-    padding: 2rem 2rem 1rem 2rem;
+    padding: 2rem 2rem 0rem 2rem;
   }
   .user-answer-image {
     display: flex;
@@ -160,6 +163,15 @@ body {
     object-fit: contain;
     right: -100px;
     display: none;
+  }
+
+  #show-perfect {
+    margin-left: 2.6rem;
+  }
+
+  .next-q-button-div {
+    margin-left: 2rem;
+    margin-right: 2rem;
   }
 
   .loading-container {
