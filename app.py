@@ -6,7 +6,7 @@ app = Flask(__name__, static_folder=config.UPLOAD_FOLDER)
 
 app = Flask(__name__)
 
-app.secret_key = 'your_secret_key'
+app.secret_key = 'your_secret_key_2'
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -15,11 +15,11 @@ def page_not_found(e):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    subject = session['subject'] if session['subject'] else 'Maths'
-    level = session['level'] if session['level'] else 'GCSE'
-    exam_board = session["exam-board"] if session["exam-board"] else 'Edexcel'
-    topic = session["topic"] if session["topic"] else ""
-    marks = session["marks"] if session["marks"] else 3
+    subject = session.get('subject') if session.get('subject') else 'Maths'
+    level = session.get('level') if session.get('level') else 'GCSE'
+    exam_board = session.get("exam-board") if session.get("exam-board") else 'Edexcel'
+    topic = session.get("topic") if session.get("topic") else ""
+    marks = session.get("marks") if session.get("marks") else 3
 
     return render_template('generate_question.html', **locals())
 
@@ -52,12 +52,12 @@ def create_question():
 
 @app.route('/same_again', methods=['POST'])
 def same_again():
-    subject = session['subject']
-    level = session['level']
-    exam_board = session["exam-board"]
-    topic = session["topic"]
-    marks = session["marks"]
-    question = session["question"]
+    subject = session.get('subject')
+    level = session.get('level')
+    exam_board = session.get("exam-board")
+    topic = session.get("topic")
+    marks = session.get("marks")
+    question = session.get("question")
 
     question = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
     session["question"] = question
@@ -66,12 +66,12 @@ def same_again():
 
 @app.route('/new_topic', methods=['POST'])
 def new_topic():
-    subject = session['subject']
-    level = session['level']
-    exam_board = session["exam-board"]
-    topic = session["topic"]
-    marks = session["marks"]
-    question = session["question"]
+    subject = session.get('subject')
+    level = session.get('level')
+    exam_board = session.get("exam-board")
+    topic = session.get("topic")
+    marks = session.get("marks")
+    question = session.get("question")
 
     question = aifunctions.create_question(subject, level, exam_board, marks, "", "")
     session["question"] = question
@@ -85,11 +85,11 @@ def get_feedback():
     answer = request.form.get('answer')
     session['answer'] = answer
 
-    question = session['question']
-    subject = session['subject']
-    level = session['level']
-    exam_board = session["exam-board"]
-    marks = session["marks"]
+    question = session.get('question')
+    subject = session.get('subject')
+    level = session.get('level')
+    exam_board = session.get("exam-board")
+    marks = session.get("marks")
 
     response = aifunctions.get_feedback(subject, level, exam_board, '\n'.join(question), answer, marks)
     answers_class = "show"
@@ -104,11 +104,11 @@ def get_star_answer():
     answer = request.form.get('answer')
     session['answer'] = answer
 
-    question = session['question']
-    subject = session['subject']
-    level = session['level']
-    exam_board = session["exam-board"]
-    marks = session["marks"]
+    question = session.get('question')
+    subject = session.get('subject')
+    level = session.get('level')
+    exam_board = session.get("exam-board")
+    marks = session.get("marks")
 
     response = aifunctions.get_star_answer(subject, level, exam_board, '\n'.join(question), answer, marks)
     answers_class = "show"
@@ -122,16 +122,15 @@ def get_star_answer():
 @app.route('/answer_question', methods=['GET'])
 def answer_question():
 
-    subject = session['subject']
-    level = session['level']
-    exam_board = session["exam-board"]
-    topic = session["topic"]
-    marks = session["marks"]
-    question = session["question"]
+    subject = session.get('subject')
+    level = session.get('level')
+    exam_board = session.get("exam-board")
+    topic = session.get("topic")
+    marks = session.get("marks")
+    question = session.get("question")
 
     print("****")
     print("question")
-    question = session['question']
     print(question)
     answers_class = "hidden"
     submit_class = "show"
