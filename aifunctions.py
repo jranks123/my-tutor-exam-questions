@@ -12,8 +12,8 @@ def create_question(subject, level, exam_board, number_of_marks, topic, same_aga
 
     exam_board_sentence = 'Model the question on previous {} {} {} papers.'.format(subject, level, exam_board) if len(exam_board) > 0 else " "
 
-    message = '''Create a {} {} {} example exam question, worth {} mark(s). {} {} {} Return your answer in the format `Question: <question> \n [<number of marks> Mark(s)]`.  It is important that the number of marks is exactly {}.
-    It is very important that you do not give the answer. If you refer to a text, either refer to it by name or quote it. The exam question must be an question that can receive a text-based answer. Do not return your answer in quotes. '''.format(subject, level, exam_board, number_of_marks, exam_board_sentence, same_again_sentence,  topic_sentance, number_of_marks)
+    message = '''Create a {} {} {} example exam question, worth {} mark(s). {} {} {} Return your answer in the format `Question: <question> [<number of marks> Mark(s)]`.  It is important that the number of marks is exactly {}.
+    It is very important that you do not give the answer. If you refer to a text, either refer to it by name or quote it. The exam question must be an question that can receive a text-based answer. Do not return your answer in quotes.'''.format(subject, level, exam_board, number_of_marks, exam_board_sentence, same_again_sentence,  topic_sentance, number_of_marks)
 
     print(message)
 
