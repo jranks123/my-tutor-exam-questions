@@ -6,13 +6,17 @@ body {
     padding-top: 70px;
     font-family: "FoundersGrotesk", Roboto, Verdana, sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   h1, h2 {
     font-family: "BureauGrotesk","FoundersGrotesk",Roboto, Verdana, sans-serif;
     color: #242424;
     font-weight: 400;
+  }
+
+  .loading-text {
+    font-family: "FoundersGrotesk", Roboto, Verdana, sans-serif;
   }
 
   h1 {
@@ -55,7 +59,9 @@ body {
       color: #232323;
       font-weight: 600;
       font-family: "FoundersGrotesk",sans-serif;
+      margin: 10px;
   }
+
 
   .btn-primary:hover {
     color: #FFFFFF;
@@ -87,7 +93,7 @@ body {
   .show {
     display: block;
   }
-  .ai-question-container {
+  .estion-container {
     width: calc(100% - 100px);
   }
 
@@ -95,9 +101,23 @@ body {
     padding: 1rem 2rem;
     margin-bottom: 1rem;
     background: #fff;
-    border: 12px solid #242424;
-    border-radius: 12px;
-    
+
+  }
+
+  .feedback-div {
+    padding: 1rem 2.6rem;
+  }
+
+  #the-answer {
+    height: 300px;
+  }
+  
+  .ai-star-answer {
+    border: 6px solid #242424;
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 2rem;
+    background: #fff;
   }
 
   .ai-question h1, .ai-question h2 {
@@ -105,8 +125,8 @@ body {
   }
 
   .ai-question .lead {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 300;
     color: #242424;
   }
 
@@ -116,7 +136,7 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    
+
   }
 
 
@@ -138,7 +158,7 @@ body {
 
   .user-answer-form {
     z-index: 10;
-    padding: 2rem 2rem 1rem 2rem;
+    padding: 2rem 2rem 0rem 2rem;
   }
   .user-answer-image {
     display: flex;
@@ -153,6 +173,59 @@ body {
     right: -100px;
     display: none;
   }
+
+  #show-perfect {
+    margin-left: 2.6rem;
+  }
+
+  .next-q-button-div {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .loading-container {
+           background-color: rgba(244, 244, 244, 0.8);
+           display: none;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           width: 100vw;
+          position: fixed;
+           top: 0;
+           left: 0;
+           z-index: 999;
+       }
+
+       .loader {
+           display: inline-block;
+           font-size: 30px;
+           text-align: center;
+       }
+
+       .robot {
+           display: inline-block;
+           position: relative;
+           animation: move 2s linear infinite;
+       }
+
+       .robot::before {
+           content: "🤖";
+       }
+
+       @keyframes move {
+           0%, 100% {
+               transform: translateY(0);
+           }
+           50% {
+               transform: translateY(-10px);
+           }
+       }
+
+       .loading-text {
+           display: block;
+           margin-top: 15px;
+       }
 
   @media (min-width: 998px) {
     .user-answer-image img {

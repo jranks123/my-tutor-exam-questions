@@ -2,19 +2,29 @@
 
 {% block body %}
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <main class="container ai-question-container">
-  <div class="row ai-question">
-    <h1>Question:</h1>
-    <p class="lead">{{ question }}
-    </p>
+  <div class="answer-page-title">
+    <div class="title-with-subject">
+      <h1 style="display: inline-block;">Exam question generator</h1>
+      <span style="display: inline-block; font-size: 24px; line-height: 1.2; margin-left: 15px;">{{ exam_board }} | {{ subject }} | {{ level }}</span>
+    </div>
+  </div>
+
+  <div class="ai-question">
+    {% for para in question %}
+        <span class="lead">{{para.replace('Question: ', '')}}</span>
+        <br>
+    {% endfor %}
+
   </div>
 
 <div class="user-answer">
   <div class="user-answer-form">
-    <form class="" action="{{ url_for('submit_answer') }}" method="post">
+    <form class="" onsubmit="handleSubmit(event)" method="post">
       <div class="mb-3">
-        <textarea name="answer" rows="6" cols="80">{{ answer }}</textarea>
+        <textarea id="the-answer" name="answer" rows="8" cols="80">{{ answer }}</textarea>
       </div>
       <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
     </form>
@@ -23,35 +33,194 @@
     <img src="https://cdn.mytutor.co.uk/images/uploads/Prices-Hero-image-2021.png" alt="PHOTO: Student" />
   </div>
 
+  <div id="all-the-feedback" class="hidden">
+    <div class="feedback-div">
+      <h2>Feedback</h2>
+      <p id='feedback'> </p>
+    </div>
+
+    <div class="user-controls">
+      <button id="show-perfect" class="btn btn-primary btn-lg">Show Star Answer</button>
+    </div>
+
+    <div id="star-answer-div" class="hidden ai-star-answer">
+      <h2> &#x2B50; Star Answer &#x2B50;</h2>
+      <p id=star-answer-para> </p>
+    </div>
+
+
+  </div>
+
+
+  <div class="next-q-button-div">
+    <button id="same-again" class="btn btn-primary btn-controls btn-lg">Give me another question like this!</button>
+    <button id="new-topic" class="btn btn-primary btn-controls btn-lg">Give me a question on a different topic</button>
+    <button id="take-me-home" class="btn btn-primary btn-lg">Let me choose a different subject/level/topic </button>
+  </div>
+
 </div>
 
-<div class="row ai-feedback">
-  <h2>Feedback</h2>
-  <p> {{feedback}} </p>
+<div id='container-for-feedback'>
+  <div id="loading-cont" class="loading-container">
+      <div class="loader">
+        <span class="robot"></span>
+        <span class="loading-text">Thinking...</span>
+    </div>
+  </div>
+
+
 </div>
 
-<div class="user-controls">
-  <button id="show-perfect" class="btn btn-primary btn-sm">Show Perfect Answer</button>
-</div>
-
-
-<div id="perfect-answer" class="hidden ai-perfect-answer">
-  <h3>Perfect Answer</h3>
-  <p> {{perfect_answer}} </p>
-</div>
+<br>
 
 </main>
 
 <script>
   var showPerfectButton = document.getElementById('show-perfect');
-  var perfectAnswerDiv = document.getElementById('perfect-answer');
+  var starAnswerDiv = document.getElementById('star-answer-div');
+  var starAnswerPara = document.getElementById('star-answer-para');
+  var sameAgain = document.getElementById('same-again');
+  var newTopic = document.getElementById('new-topic');
+  var takeMeHome = document.getElementById('take-me-home');
+  var loadingScreen = document.getElementById('loading-cont')
+  var submitButton = document.getElementById('submit')
+  var feedbackSection = document.getElementById('all-the-feedback')
+  var feedbackDiv = document.getElementById('feedback-div')
+  var feedbackPara = document.getElementById('feedback')
+
+
+  function createConfettiAnimation() {
+    const duration = 500; // Duration of the confetti animation in milliseconds
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 10, spread: 360, ticks: 60, zIndex: 9999 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    (function frame() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return;
+        }
+
+        const particles = Math.random() * (timeLeft / duration) * 100;
+        for (let i = 0; i < particles; i++) {
+            confetti(Object.assign({}, defaults, {
+                particleCount: 4,
+                origin: { x: Math.random(), y: Math.random() - 0.2 },
+                colors: ['#03CCBB', '#FFAC00', '#FFA4CB'], // Add or change colors here
+                scalar: randomInRange(2, 3),
+            }));
+        }
+
+        requestAnimationFrame(frame);
+    })();
+}
+
+
+
+
+  function handleSubmit(event) {
+      // Prevent the form from submitting normally
+      event.preventDefault();
+
+      // Get the form data
+      var formData = new FormData(event.target);
+      feedbackSection.classList.add('hidden')
+      // Make a POST request to the Flask route using Axios
+      axios.post('/get-feedback', formData)
+        .then(function(response) {
+
+          // Update the page with the result
+          loadingScreen.style.display = "none";
+          feedbackSection.classList.remove('hidden')
+          feedbackPara.innerHTML = response.data.result.join('<br>');
+
+
+          // createConfettiAnimation();
+
+
+
+          console.log(response)
+
+        })
+        .catch(function(error) {
+          // Handle errors here
+        });
+
+        axios.post('/get-star-answer', formData)
+          .then(function(response) {
+            console.log(response)
+            // Update the page with the result
+            loadingScreen.style.display = "none";
+            feedbackSection.classList.remove('hidden')
+            starAnswerPara.innerHTML = response.data.result.join('<br>');
+          })
+          .catch(function(error) {
+            // Handle errors here
+          });
+    }
 
   console.log("Hello")
   showPerfectButton.addEventListener('click', function() {
-    perfectAnswerDiv.classList.remove('hidden');
-    perfectAnswerDiv.classList.add('show');
+    starAnswerDiv.classList.remove('hidden');
+    starAnswerDiv.classList.add('show');
     showPerfectButton.classList.add('hidden');
   });
+
+  submit.addEventListener('click', function() {
+    loadingScreen.style.display = "flex";
+  });
+
+  newTopic.addEventListener('click', function() {
+     loadingScreen.style.display = "flex";
+     axios.post('/new_topic')
+       .then(function(response) {
+              // Reload the /answer_question page after the response is received
+              loadingScreen.style.display = "none";
+              window.location.href = '/answer_question';
+          })
+          .catch(function(error) {
+              // Handle any errors that may occur during the request
+              console.error(error);
+          });
+    // write code here that would call a route on the backend called same again
+  });
+
+  takeMeHome.addEventListener('click', function() {
+    axios.post('/')
+      .then(function(response) {
+             // Reload the /answer_question page after the response is received
+             loadingScreen.style.display = "none";
+             window.location.href = '/';
+         })
+         .catch(function(error) {
+             // Handle any errors that may occur during the request
+             console.error(error);
+         });
+    // write code here that would call a route on the backend called same again
+  });
+
+  sameAgain.addEventListener('click', function() {
+     loadingScreen.style.display = "flex";
+     axios.post('/same_again')
+       .then(function(response) {
+              // Reload the /answer_question page after the response is received
+              loadingScreen.style.display = "none";
+              window.location.href = '/answer_question';
+          })
+          .catch(function(error) {
+              // Handle any errors that may occur during the request
+              console.error(error);
+          });
+    // write code here that would call a route on the backend called same again
+  });
+
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
 
 {% endblock %}
