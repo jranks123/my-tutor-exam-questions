@@ -15,6 +15,10 @@ body {
     font-weight: 400;
   }
 
+  .loading-text {
+    font-family: "FoundersGrotesk", Roboto, Verdana, sans-serif;
+  }
+
   h1 {
     font-size: 3.125rem;
     line-height: 1.2rem;
@@ -215,7 +219,6 @@ body {
        .loading-text {
            display: block;
            margin-top: 15px;
-           font-family: 'Arial', sans-serif;
        }
 
   @media (min-width: 998px) {
