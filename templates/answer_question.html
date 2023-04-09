@@ -22,7 +22,7 @@
           <br>
       {% endfor %}
     </div>
-    
+
 
   </div>
 
@@ -33,10 +33,25 @@
         <textarea id="the-answer" name="answer" rows="8" cols="80">{{ answer }}</textarea>
       </div>
       <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
+      <button id="show-hint" class="btn btn-primary btn-controls btn-lg">Give me a hint</button>
     </form>
   </div>
   <div class="user-answer-image">
     <img src="https://cdn.mytutor.co.uk/images/uploads/Prices-Hero-image-2021.png" alt="PHOTO: Student" />
+  </div>
+
+
+  <div id="hint-section" class="hidden">
+    <div class="hint-div">
+      <h2>Hint</h2>
+      {% for para in hint %}
+          <span class="lead">{{para.replace('Question: ', '')}}</span>
+          <br>
+      {% endfor %}
+    </div>
+  </div>
+
+
   </div>
 
   <div id="all-the-feedback" class="hidden">
@@ -87,12 +102,16 @@
   var starAnswerPara = document.getElementById('star-answer-para');
   var sameAgain = document.getElementById('same-again');
   var newTopic = document.getElementById('new-topic');
+  var showHint = document.getElementById('show-hint');
   var takeMeHome = document.getElementById('take-me-home');
   var loadingScreen = document.getElementById('loading-cont')
   var submitButton = document.getElementById('submit')
   var feedbackSection = document.getElementById('all-the-feedback')
+  var hintSection = document.getElementById('hint-section')
+  var hintDiv = document.getElementById('hint-div')
   var feedbackDiv = document.getElementById('feedback-div')
   var feedbackPara = document.getElementById('feedback')
+  var hintPara = document.getElementById('hint')
 
 
   function createConfettiAnimation() {
@@ -174,6 +193,16 @@
     starAnswerDiv.classList.remove('hidden');
     starAnswerDiv.classList.add('show');
     showPerfectButton.classList.add('hidden');
+  });
+
+  showHint.addEventListener('click', function() {
+    event.preventDefault();
+    hintSection.classList.remove('hidden')
+    showHint.classList.add('hidden')
+  });
+
+  submit.addEventListener('click', function() {
+    loadingScreen.style.display = "flex";
   });
 
   submit.addEventListener('click', function() {

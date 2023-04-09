@@ -39,6 +39,8 @@ def create_question():
 
     # Call your function to create the question
     question = aifunctions.create_question(subject, level, exam_board, marks, topic, "")
+    hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
+    session["hint"] = hint
     session["question"] = question
     session["subject"] = subject
     session["level"] = level
@@ -60,6 +62,8 @@ def same_again():
     question = session.get("question")
 
     question = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
+    hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
+    session["hint"] = hint
     session["question"] = question
 
     return "Updated Question"
@@ -74,6 +78,8 @@ def new_topic():
     question = session.get("question")
 
     question = aifunctions.create_question(subject, level, exam_board, marks, "", "")
+    hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
+    session["hint"] = hint
     session["question"] = question
 
     return "Updated Question"
@@ -92,10 +98,9 @@ def get_feedback():
     marks = session.get("marks")
 
     response = aifunctions.get_feedback(subject, level, exam_board, '\n'.join(question), answer, marks)
-    answers_class = "show"
-    submit_class = "hidden"
 
     return jsonify({'result': response})
+
 
 @app.route('/get-star-answer', methods=['POST'])
 def get_star_answer():
@@ -127,6 +132,7 @@ def answer_question():
     exam_board = session.get("exam-board")
     topic = session.get("topic")
     marks = session.get("marks")
+    hint = session.get("hint")
     question = session.get("question")
 
     print("****")
