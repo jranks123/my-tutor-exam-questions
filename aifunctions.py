@@ -103,7 +103,7 @@ def get_star_answer(subject, level, exam_board, question, answer, marks):
 
 def get_hint(subject, level, exam_board, question, marks):
     messageBase = get_message_base(subject, level, exam_board, question)
-    messageVariant = '''A student is struggling to answer this question. Create a hint for them that doesn't give the answer away but will guide them in the right direction. The tone should be friendly but definitely not patronizing. Refer to the student in the second person. '''
+    messageVariant = '''A student is struggling to answer this question. Create a hint for them that doesn't give the answer away but will guide them in the right direction. The tone should be friendly but definitely not patronizing. Refer to the student in the second person. Do not return your answer in quotes.'''
     message = messageBase+messageVariant
     print("****HINT****")
     print(message)
