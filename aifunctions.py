@@ -10,15 +10,14 @@ def create_question(subject, level, exam_board, number_of_marks, topic, same_aga
     number_of_marks = number_of_marks if number_of_marks else 3
     topic_sentance = '''The question should be on the topic of {}.'''.format(topic) if topic else " "
 
-    exam_board_sentence = 'Model the question on previous {} {} {} papers.'.format(subject, level, exam_board) if len(exam_board) > 0 else " "
+    exam_board_sentence = 'Model the question on previous {} {} {} papers.'.format(level,subject,exam_board) if len(exam_board) > 0 else " "
 
     message = '''Create a {} {} {} example exam question, worth {} mark(s), which we will refer to as <question>. {} {} {}. It is important that the number of marks is exactly {}.
     If you refer to a text, either refer to it by name or quote it.
     The exam question must be an question that can receive a text-based answer.
     You must include all the information required to answer the question.
     If it is a maths question, make sure you follow the san mateo county community college district standard for writing maths in ascii.
-    Also return a detailed accompanying mark scheme, which we will refer to as <mark_scheme>, for this question outlining what an answer would need to demonstrate for a range of possible marks, including maximum marks. Be as detailed as possible, using your knowledge of previous {} {} {} mark schemes. Leave a new line between each mark explanation.
-    Give your response to this request in the format `Question: <question> [<number of marks> Mark(s)]. *SPLIT* <mark_scheme>.`
+    Give your response to this request in the format `Question: <question> [<number of marks> Mark(s)].`
     '''.format(subject, level, exam_board, number_of_marks, exam_board_sentence, same_again_sentence,  topic_sentance, number_of_marks, exam_board, subject, level )
 
     print(message)
@@ -27,26 +26,20 @@ def create_question(subject, level, exam_board, number_of_marks, topic, same_aga
     print(options)
     try:
         print('\n\n***BOUT to try \n\n\n')
-        response = openai.Completion.create(**options)['choices'][0]["text"].strip().split('*SPLIT*')
-        question = response[0].split('\n')
-        print(question)
-        mark_scheme = response[1].split('\n')
-        print(mark_scheme)
+        response = openai.Completion.create(**options)['choices'][0]["text"].strip().split('\n')
     except Exception as e:
         print(f"Problem with: {e}")
 
-    return (question, mark_scheme)
+    return response
 
 
-def create_mark_scheme(subject, level, exam_board, number_of_marks, topic, same_again_sentence):
+def create_mark_scheme(subject, level, exam_board, question, number_of_marks):
 
     number_of_marks = number_of_marks if number_of_marks else 3
-    topic_sentance = '''The question should be on the topic of {}.'''.format(topic) if topic else " "
-
-    exam_board_sentence = 'Model the question on previous {} {} {} papers.'.format(subject, level, exam_board) if len(exam_board) > 0 else " "
-
-    message = '''Create a mark scheme for the following {} {} {} example exam question, which is worth {} mark(s). It should outline what an answer would need to demonstrate for a range of possible marks, including maximum marks. Be as detailed as possible, using your knowledge of previous {} {} {} mark schemes. Leave a new line between each mark explanation.
-    '''.format(level, subject exam_board, number_of_marks, level, subject, exam_board )
+    message = '''The following is a {} {} {} example exam question, which is worth {} mark(s): `{}`.
+        Create a mark scheme for this question. We will now refer to this as <mark_scheme> It should outline what an answer would need to demonstrate for a range of possible marks, including maximum marks.
+        Be as detailed as possible, using your knowledge of previous {} {} {} mark schemes.
+        Leave a new line between each mark explanation. Give the answer in the format: `\n<mark_scheme>\n`.'''.format(level, subject, exam_board, number_of_marks, question, level, subject, exam_board )
 
     print(message)
 
@@ -54,7 +47,7 @@ def create_mark_scheme(subject, level, exam_board, number_of_marks, topic, same_
     print(options)
     try:
         print('\n\n***BOUT to try \n\n\n')
-        response = openai.Completion.create(**options)['choices'][0]["text"].strip()
+        response = openai.Completion.create(**options)['choices'][0]["text"].strip().split('\n')
     except Exception as e:
         print(f"Problem with: {e}")
 

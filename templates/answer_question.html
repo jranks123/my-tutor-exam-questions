@@ -60,10 +60,8 @@
       <p id='feedback'> </p>
 
       <h2>Mark Scheme</h2>
-      {% for para in mark_scheme %}
-        <span class="lead"> {{ para }} </span>
-        <br>
-      {% endfor %}
+      <p id=mark-scheme-holding-text> Hold on a sec, I'm just thinking this one through....</p>
+      <p id=mark-scheme-para> </p>
     </div>
 
     <div class="user-controls">
@@ -115,12 +113,40 @@
   var submitButton = document.getElementById('submit')
   var feedbackSection = document.getElementById('all-the-feedback')
   var starAnswerHoldingText = document.getElementById('star-answer-holding-text')
+  var markSchemeHoldingText = document.getElementById('mark-scheme-holding-text')
   var hintSection = document.getElementById('hint-section')
   var hintDiv = document.getElementById('hint-div')
   var feedbackDiv = document.getElementById('feedback-div')
   var feedbackPara = document.getElementById('feedback')
-  var markSchemePara = document.getElementById('mark_scheme')
+  var markSchemePara = document.getElementById('mark-scheme-para')
   var hintPara = document.getElementById('hint')
+
+  function getMarkScheme() {
+    axios.post('/get-mark-scheme')
+      .then(function(response) {
+        console.log("got mark scheme")
+        console.log(response.data.result)
+        // Update the page with the result
+        markSchemeHoldingText.style.display = "none";
+        markSchemePara.innerHTML = response.data.result.join('<br>');
+      })
+      .catch(function(error) {
+        // Handle errors here
+      });
+  }
+
+  function getStarAnswer() {
+    axios.post('/get-star-answer')
+      .then(function(response) {
+        console.log(response.data.result)
+        // Update the page with the result
+        starAnswerHoldingText.style.display = "none";
+        starAnswerPara.innerHTML = response.data.result.join('<br>');
+      })
+      .catch(function(error) {
+        // Handle errors here
+      });
+    }
 
 
   function createConfettiAnimation() {
@@ -177,7 +203,6 @@
           // createConfettiAnimation();
 
 
-
           console.log(response)
 
         })
@@ -185,19 +210,13 @@
           // Handle errors here
         });
 
-        axios.post('/get-star-answer', formData)
-          .then(function(response) {
-            console.log(response)
-            // Update the page with the result
-            starAnswerHoldingText.style.display = "none";
-            starAnswerPara.innerHTML = response.data.result.join('<br>');
-          })
-          .catch(function(error) {
-            // Handle errors here
-          });
     }
 
   console.log("Hello")
+
+  getMarkScheme();
+  getStarAnswer();
+
   showPerfectButton.addEventListener('click', function() {
     starAnswerDiv.classList.remove('hidden');
     starAnswerDiv.classList.add('show');

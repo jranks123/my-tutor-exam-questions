@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import config
 import aifunctions
+import time
 
 app = Flask(__name__, static_folder=config.UPLOAD_FOLDER)
 
@@ -38,10 +39,9 @@ def create_question():
     exam_board = request.form.get('exam-board')
 
     # Call your function to create the question
-    (question, mark_scheme) = aifunctions.create_question(subject, level, exam_board, marks, topic, "")
-    hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
-    session["mark_scheme"] = mark_scheme
-    session["hint"] = hint
+    question = aifunctions.create_question(subject, level, exam_board, marks, topic, "")
+    #hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
+    #session["hint"] = hint
     session["question"] = question
     session["subject"] = subject
     session["level"] = level
@@ -89,7 +89,9 @@ def new_topic():
 
 @app.route('/get-feedback', methods=['POST'])
 def get_feedback():
-
+    while session.get('mark_scheme') == 'loading':
+        time = 1
+        #do nothing
     # Get the question data from the form
     answer = request.form.get('answer')
     session['answer'] = answer
@@ -106,8 +108,29 @@ def get_feedback():
     return jsonify({'result': response})
 
 
+@app.route('/get-mark-scheme', methods=['POST'])
+def get_mark_scheme():
+    print("getting mark scheme")
+    session['mark_scheme'] = "loading"
+    # Get the question data from the form
+    question = session.get('question')
+    subject = session.get('subject')
+    level = session.get('level')
+    exam_board = session.get("exam-board")
+    marks = session.get("marks")
+    mark_scheme = aifunctions.create_mark_scheme(subject, level, exam_board, '\n'.join(question), marks)
+    print("\n oioi")
+    print(mark_scheme)
+    session['mark_scheme'] = mark_scheme
+    return jsonify({'result': mark_scheme})
+
 @app.route('/get-star-answer', methods=['POST'])
 def get_star_answer():
+
+    wait = 1
+    while session.get('mark_scheme') == 'loading':
+        wait = wait + 1
+        wait = wait - 1
 
     # Get the question data from the form
     answer = request.form.get('answer')
