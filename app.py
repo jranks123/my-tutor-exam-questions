@@ -62,12 +62,10 @@ def same_again():
     marks = session.get("marks")
     question = session.get("question")
 
-    (question, mark_scheme) = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
+    question = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
     hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
     session["hint"] = hint
     session["question"] = question
-    session["mark_scheme"] = mark_scheme
-
     return "Updated Question"
 
 @app.route('/new_topic', methods=['POST'])
@@ -79,12 +77,10 @@ def new_topic():
     marks = session.get("marks")
     question = session.get("question")
 
-    (question, mark_scheme) = aifunctions.create_question(subject, level, exam_board, marks, "", "")
+    question = aifunctions.create_question(subject, level, exam_board, marks, "", "")
     hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
     session["hint"] = hint
     session["question"] = question
-    session["mark_scheme"] = mark_scheme
-
     return "Updated Question"
 
 @app.route('/get-feedback', methods=['POST'])
