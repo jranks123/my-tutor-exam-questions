@@ -1,7 +1,7 @@
 import openai
 import config, os
 
-openai.api_key = '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'
+openai.api_key = config.OPENAI_API_KEY
 
 
 
