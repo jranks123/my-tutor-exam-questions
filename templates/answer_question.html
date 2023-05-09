@@ -58,6 +58,12 @@
     <div class="feedback-div">
       <h2>Feedback</h2>
       <p id='feedback'> </p>
+
+      <h2>Mark Scheme</h2>
+      {% for para in mark_scheme %}
+        <span class="lead"> {{ para }} </span>
+        <br>
+      {% endfor %}
     </div>
 
     <div class="user-controls">
@@ -66,6 +72,7 @@
 
     <div id="star-answer-div" class="hidden ai-star-answer">
       <h2> &#x2B50; Star Answer &#x2B50;</h2>
+      <p id=star-answer-holding-text> Hold on a sec, I'm just thinking this one through....</p>
       <p id=star-answer-para> </p>
     </div>
 
@@ -107,10 +114,12 @@
   var loadingScreen = document.getElementById('loading-cont')
   var submitButton = document.getElementById('submit')
   var feedbackSection = document.getElementById('all-the-feedback')
+  var starAnswerHoldingText = document.getElementById('star-answer-holding-text')
   var hintSection = document.getElementById('hint-section')
   var hintDiv = document.getElementById('hint-div')
   var feedbackDiv = document.getElementById('feedback-div')
   var feedbackPara = document.getElementById('feedback')
+  var markSchemePara = document.getElementById('mark_scheme')
   var hintPara = document.getElementById('hint')
 
 
@@ -154,14 +163,15 @@
       // Get the form data
       var formData = new FormData(event.target);
       feedbackSection.classList.add('hidden')
+      submitButton.style.display = "none";
       // Make a POST request to the Flask route using Axios
       axios.post('/get-feedback', formData)
         .then(function(response) {
 
           // Update the page with the result
           loadingScreen.style.display = "none";
-          feedbackSection.classList.remove('hidden')
           feedbackPara.innerHTML = response.data.result.join('<br>');
+          feedbackSection.classList.remove('hidden')
 
 
           // createConfettiAnimation();
@@ -179,8 +189,7 @@
           .then(function(response) {
             console.log(response)
             // Update the page with the result
-            loadingScreen.style.display = "none";
-            feedbackSection.classList.remove('hidden')
+            starAnswerHoldingText.style.display = "none";
             starAnswerPara.innerHTML = response.data.result.join('<br>');
           })
           .catch(function(error) {

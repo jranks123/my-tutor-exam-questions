@@ -15,10 +15,11 @@ def page_not_found(e):
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    subject = session.get('subject') if session.get('subject') else 'Maths'
+    subject = session.get('subject') if session.get('subject') else 'English'
     level = session.get('level') if session.get('level') else 'GCSE'
     exam_board = session.get("exam-board") if session.get("exam-board") else 'Edexcel'
     topic = session.get("topic") if session.get("topic") else ""
+    mark_scheme = session.get("mark_scheme") if session.get("mark_scheme") else ""
     marks = session.get("marks") if session.get("marks") else 3
 
     return render_template('generate_question.html', **locals())
@@ -36,10 +37,10 @@ def create_question():
     topic = request.form.get('topic')
     exam_board = request.form.get('exam-board')
 
-
     # Call your function to create the question
-    question = aifunctions.create_question(subject, level, exam_board, marks, topic, "")
+    (question, mark_scheme) = aifunctions.create_question(subject, level, exam_board, marks, topic, "")
     hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
+    session["mark_scheme"] = mark_scheme
     session["hint"] = hint
     session["question"] = question
     session["subject"] = subject
@@ -61,10 +62,11 @@ def same_again():
     marks = session.get("marks")
     question = session.get("question")
 
-    question = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
+    (question, mark_scheme) = aifunctions.same_again(subject, level, exam_board, marks, topic, question)
     hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
     session["hint"] = hint
     session["question"] = question
+    session["mark_scheme"] = mark_scheme
 
     return "Updated Question"
 
@@ -77,10 +79,11 @@ def new_topic():
     marks = session.get("marks")
     question = session.get("question")
 
-    question = aifunctions.create_question(subject, level, exam_board, marks, "", "")
+    (question, mark_scheme) = aifunctions.create_question(subject, level, exam_board, marks, "", "")
     hint = aifunctions.get_hint(subject, level, exam_board, '\n'.join(question), marks)
     session["hint"] = hint
     session["question"] = question
+    session["mark_scheme"] = mark_scheme
 
     return "Updated Question"
 
@@ -96,8 +99,9 @@ def get_feedback():
     level = session.get('level')
     exam_board = session.get("exam-board")
     marks = session.get("marks")
-
-    response = aifunctions.get_feedback(subject, level, exam_board, '\n'.join(question), answer, marks)
+    mark_scheme = session.get("mark_scheme")
+    print(mark_scheme)
+    response = aifunctions.get_feedback(subject, level, exam_board, '\n'.join(question), answer, marks, mark_scheme)
 
     return jsonify({'result': response})
 
@@ -114,8 +118,9 @@ def get_star_answer():
     level = session.get('level')
     exam_board = session.get("exam-board")
     marks = session.get("marks")
+    mark_scheme = session.get("mark_scheme")
 
-    response = aifunctions.get_star_answer(subject, level, exam_board, '\n'.join(question), answer, marks)
+    response = aifunctions.get_star_answer(subject, level, exam_board, '\n'.join(question), answer, marks, mark_scheme)
     answers_class = "show"
     submit_class = "hidden"
 
@@ -134,6 +139,7 @@ def answer_question():
     marks = session.get("marks")
     hint = session.get("hint")
     question = session.get("question")
+    mark_scheme = session.get("mark_scheme")
 
     print("****")
     print("question")
