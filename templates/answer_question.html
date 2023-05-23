@@ -58,6 +58,10 @@
     <div class="feedback-div">
       <h2>Feedback</h2>
       <p id='feedback'> </p>
+
+      <h2>Mark Scheme</h2>
+      <p id=mark-scheme-holding-text> Hold on a sec, I'm just thinking this one through....</p>
+      <p id=mark-scheme-para> </p>
     </div>
 
     <div class="user-controls">
@@ -66,6 +70,7 @@
 
     <div id="star-answer-div" class="hidden ai-star-answer">
       <h2> &#x2B50; Star Answer &#x2B50;</h2>
+      <p id=star-answer-holding-text> Hold on a sec, I'm just thinking this one through....</p>
       <p id=star-answer-para> </p>
     </div>
 
@@ -107,11 +112,41 @@
   var loadingScreen = document.getElementById('loading-cont')
   var submitButton = document.getElementById('submit')
   var feedbackSection = document.getElementById('all-the-feedback')
+  var starAnswerHoldingText = document.getElementById('star-answer-holding-text')
+  var markSchemeHoldingText = document.getElementById('mark-scheme-holding-text')
   var hintSection = document.getElementById('hint-section')
   var hintDiv = document.getElementById('hint-div')
   var feedbackDiv = document.getElementById('feedback-div')
   var feedbackPara = document.getElementById('feedback')
+  var markSchemePara = document.getElementById('mark-scheme-para')
   var hintPara = document.getElementById('hint')
+
+  function getMarkScheme() {
+    axios.post('/get-mark-scheme')
+      .then(function(response) {
+        console.log("got mark scheme")
+        console.log(response.data.result)
+        // Update the page with the result
+        markSchemeHoldingText.style.display = "none";
+        markSchemePara.innerHTML = response.data.result.join('<br>');
+      })
+      .catch(function(error) {
+        // Handle errors here
+      });
+  }
+
+  function getStarAnswer() {
+    axios.post('/get-star-answer')
+      .then(function(response) {
+        console.log(response.data.result)
+        // Update the page with the result
+        starAnswerHoldingText.style.display = "none";
+        starAnswerPara.innerHTML = response.data.result.join('<br>');
+      })
+      .catch(function(error) {
+        // Handle errors here
+      });
+    }
 
 
   function createConfettiAnimation() {
@@ -154,18 +189,18 @@
       // Get the form data
       var formData = new FormData(event.target);
       feedbackSection.classList.add('hidden')
+      submitButton.style.display = "none";
       // Make a POST request to the Flask route using Axios
       axios.post('/get-feedback', formData)
         .then(function(response) {
 
           // Update the page with the result
           loadingScreen.style.display = "none";
-          feedbackSection.classList.remove('hidden')
           feedbackPara.innerHTML = response.data.result.join('<br>');
+          feedbackSection.classList.remove('hidden')
 
 
           // createConfettiAnimation();
-
 
 
           console.log(response)
@@ -175,20 +210,13 @@
           // Handle errors here
         });
 
-        axios.post('/get-star-answer', formData)
-          .then(function(response) {
-            console.log(response)
-            // Update the page with the result
-            loadingScreen.style.display = "none";
-            feedbackSection.classList.remove('hidden')
-            starAnswerPara.innerHTML = response.data.result.join('<br>');
-          })
-          .catch(function(error) {
-            // Handle errors here
-          });
     }
 
   console.log("Hello")
+
+  getMarkScheme();
+  getStarAnswer();
+
   showPerfectButton.addEventListener('click', function() {
     starAnswerDiv.classList.remove('hidden');
     starAnswerDiv.classList.add('show');

@@ -177,6 +177,10 @@ body {
     padding: 1rem 2.6rem;
   }
 
+  #all-the-feedback {
+    background: #fff;
+  }
+
   #the-answer {
     height: 300px;
   }

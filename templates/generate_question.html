@@ -15,11 +15,11 @@
           <div class="mb-3">
             <label class="form-label" for="subject">Subject</label>
             <select class="form-select form-select-lg mb-3" name="subject" id="subject">
-
+              <option value="English" {% if subject == 'English' %}selected{% endif %}>English</option>
               <option value="Maths" {% if subject == 'Maths' %}selected{% endif %}>Maths</option>
               <option value="Chemistry" {% if subject == 'Chemistry' %}selected{% endif %}>Chemistry</option>
-              <option value="English" {% if subject == 'English' %}selected{% endif %}>English</option>
               <option value="Biology" {% if subject == 'Biology' %}selected{% endif %}>Biology</option>
+              <option value="Geography" {% if subject == 'Geography' %}selected{% endif %}>Geography</option>
               <option value="Physics" {% if subject == 'Physics' %}selected{% endif %}>Physics</option>
               <option value="English Literature" {% if subject == 'English Literature' %}selected{% endif %}>English Literature</option>
               <option value="English Language" {% if subject == 'English Language' %}selected{% endif %}>English Language</option>
@@ -32,6 +32,7 @@
               <option value="History" {% if subject == 'History' %}selected{% endif %}>History</option>
               <option value="Government and Politics" {% if subject == 'Government and Politics' %}selected{% endif %}>Government and Politics</option>
               <option value="Accounting" {% if subject == 'Accounting' %}selected{% endif %}>Accounting</option>
+              <option value="Physical Education" {% if subject == 'Physical Education' %}selected{% endif %}>Physical Education</option>
 
             </select>
           </div>
@@ -41,9 +42,9 @@
             <select class="form-select form-select-lg mb-3" name="level" id="level">
               <option value="GCSE" {% if level == 'GCSE' %}selected{% endif %}>GCSE</option>
               <option value="A Level" {% if level == 'A Level' %}selected{% endif %}>A Level</option>
-              <option value="KS3" {% if level == 'KS3' %}selected{% endif %}>KS3</option>
+              <option value="Key Stage 3" {% if level == 'Key Stage 3' %}selected{% endif %}>Key Stage 3</option>
               <option value="IB" {% if level == 'IB' %}selected{% endif %}>IB</option>
-              <option value="KS2" {% if level == 'KS2' %}selected{% endif %}>KS2</option>
+              <option value="Key Stage 2" {% if level == 'Key Stage 2' %}selected{% endif %}>Key Stage 2</option>
             </select>
           </div>
 
@@ -81,13 +82,20 @@
     <img src="{{ url_for('static', filename='images/feat.svg') }}">
   </div>
 
+  <div id="loading-cont" class="loading-container">
+      <div class="loader">
+        <span class="robot"></span>
+        <span class="loading-text">Thinking...</span>
+    </div>
+  </div>
+
 </div>
 
 
 </main>
 
 <script>
-
+var loadingScreen = document.getElementById('loading-cont')
   var generateQuestionButton = document.getElementById('submit');
 
   generateQuestionButton.addEventListener('click', function() {
