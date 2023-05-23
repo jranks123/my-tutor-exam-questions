@@ -37,9 +37,10 @@ def create_mark_scheme(subject, level, exam_board, question, number_of_marks):
 
     number_of_marks = number_of_marks if number_of_marks else 3
     message = '''The following is a {} {} {} example exam question, which is worth {} mark(s): `{}`.
-        Create a mark scheme for this question. We will now refer to this as <mark_scheme> It should outline what an answer would need to demonstrate for a range of possible marks, including maximum marks.
-        Be as detailed as possible, using your knowledge of previous {} {} {} mark schemes.
-        Leave a new line between each mark explanation. Give the answer in the format: `\n<mark_scheme>\n`.'''.format(level, subject, exam_board, number_of_marks, question, level, subject, exam_board )
+        Now, create a mark scheme for this question. We will now refer to this as <mark_scheme> It should outline what an answer would need to demonstrate for a range of possible marks, including maximum marks. The person using this mark scheme may not be familar with the subject matter, so be very specific
+        when describing what an answer would need to include to get the marks. For example, avoid something like "gives a detailed description of X", as the person using this mark scheme might not know the subject so you will really need to spell it out for them.
+        Using your knowledge of previous {} {} {} mark schemes when creating this mark scheme. If it is a maths question, make sure you include the correct answer to the question (which is `{}`)  in your the mark scheme.
+        Leave a new line between each mark explanation. Give the answer in the format: `\n<mark_scheme>\n`.'''.format(level, subject, exam_board, number_of_marks, question, level, subject, exam_board, question )
 
     print(message)
 
@@ -98,7 +99,7 @@ def get_feedback(subject, level, exam_board, question, answer, marks, mark_schem
     answer = answer if len(answer) > 0 else "I am not able to write an answer to this question"
 
     messageVariant = '''A student gave the following answer: "{}" to the question {}. Leave a comment on their work saying how many marks out of {} this answer get according to the following mark scheme: "{}". Then explain how could this answer be improved. Use \n for new lines
-    Please be as specific as you can be. The tone should be friendly but definitely not patronizing. Refer to the student in the second person. Remember that, for maths, it is 100% fine to just write the maths, no verbose explaination is needed '''.format(answer, question, marks, mark_scheme, exam_board, subject, level )
+    Please be as specific as you can be. The tone should be friendly but definitely not patronizing. Refer to the student in the second person. Remember that, for maths, it is fine to just write the maths, no verbose explaination is needed '''.format(answer, question, marks, mark_scheme, exam_board, subject, level )
     message = messageBase+messageVariant
     print(message)
 
