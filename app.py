@@ -21,7 +21,7 @@ def index():
     exam_board = session.get("exam-board") if session.get("exam-board") else 'Edexcel'
     topic = session.get("topic") if session.get("topic") else ""
     mark_scheme = session.get("mark_scheme") if session.get("mark_scheme") else ""
-    marks = session.get("marks") if session.get("marks") else 3
+    marks = session.get("marks") if session.get("marks") else 2
 
     return render_template('generate_question.html', **locals())
 
