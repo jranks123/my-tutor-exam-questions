@@ -64,7 +64,7 @@ def same_again(subject, level, exam_board, number_of_marks, topic, question):
 
 def get_da_vinci_options(message):
     options = {
-        "model": "text-davinci-003",
+        "model": "davinci:ft-personal-2023-07-12-17-04-15",
         "prompt": message,
         "temperature": 0.7,
         "max_tokens": 1024,
