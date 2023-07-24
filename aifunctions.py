@@ -14,7 +14,7 @@ def create_question(subject, level, exam_board, number_of_marks, topic, same_aga
 
     message = '''Create a {} {} {} example exam question, worth {} mark(s), which we will refer to as <question>. {} {} {}. It is important that the number of marks is exactly {}.
     If you refer to a text, either refer to it by name or quote it.
-    The exam question must be an question that can receive a text-based answer.
+    The exam question must be a question that can receive a text-based answer.
     You must include all the information required to answer the question.
     If it is a maths question, make sure you follow the san mateo county community college district standard for writing maths in ascii.
     Give your response to this request in the format `Question: <question> [<number of marks> Mark(s)].`

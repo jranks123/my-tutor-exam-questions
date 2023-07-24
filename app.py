@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 import config
 import aifunctions
 import time
+import openai
 
 app = Flask(__name__, static_folder=config.UPLOAD_FOLDER)
 
@@ -12,6 +13,17 @@ app.secret_key = 'your_secret_key_2'
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+@app.route('/prompt', methods=['GET'])
+def home():
+    return render_template('general_prompt.html', **locals())
+
+@app.route('/api', methods=['POST'])
+def get_gpt_response():
+    prompt = request.json['prompt']
+    response = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=100)
+    return jsonify(response.choices[0].text.strip())
 
 
 @app.route('/', methods=["GET", "POST"])

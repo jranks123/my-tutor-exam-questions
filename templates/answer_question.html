@@ -33,7 +33,9 @@
         <textarea id="the-answer" name="answer" rows="8" cols="80">{{ answer }}</textarea>
       </div>
       <button type="submit" id="submit" class="btn btn-primary btn-lg">Submit Answer</button>
-      <button id="show-hint" class="btn btn-primary btn-controls btn-lg">Give me a hint</button>
+    {% if hint != None %}
+        <button id="show-hint" class="btn btn-primary btn-controls btn-lg">Give me a hint</button>
+    {% endif %}
     </form>
   </div>
   <div class="user-answer-image">
@@ -41,15 +43,17 @@
   </div>
 
 
-  <div id="hint-section" class="hidden">
+  <!-- <div id="hint-section" class="hidden">
     <div class="hint-div">
       <h2>Hint</h2>
-      {% for para in hint %}
-          <span class="lead">{{para.replace('Question: ', '')}}</span>
-          <br>
-      {% endfor %}
+      {% if hint != None %}
+        {% for para in hint %}
+            <span class="lead">{{para.replace('Question: ', '')}}</span>
+            <br>
+        {% endfor %}
+      {% endif %}
     </div>
-  </div>
+  </div> -->
 
 
   </div>
@@ -185,7 +189,7 @@
   function handleSubmit(event) {
       // Prevent the form from submitting normally
       event.preventDefault();
-
+        loadingScreen.style.display = "flex";
       // Get the form data
       var formData = new FormData(event.target);
       feedbackSection.classList.add('hidden')
@@ -223,11 +227,11 @@
     showPerfectButton.classList.add('hidden');
   });
 
-  showHint.addEventListener('click', function() {
-    event.preventDefault();
-    hintSection.classList.remove('hidden')
-    showHint.classList.add('hidden')
-  });
+//   showHint.addEventListener('click', function() {
+//     event.preventDefault();
+//     hintSection.classList.remove('hidden')
+//     showHint.classList.add('hidden')
+//   });
 
   submit.addEventListener('click', function() {
     loadingScreen.style.display = "flex";
@@ -238,6 +242,7 @@
   });
 
   newTopic.addEventListener('click', function() {
+     console.log('new topic clicked');
      loadingScreen.style.display = "flex";
      axios.post('/new_topic')
        .then(function(response) {
@@ -268,6 +273,7 @@
 
   sameAgain.addEventListener('click', function() {
      loadingScreen.style.display = "flex";
+     console.log('same again clicked');
      axios.post('/same_again')
        .then(function(response) {
               // Reload the /answer_question page after the response is received
