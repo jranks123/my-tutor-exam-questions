@@ -3,10 +3,23 @@ import config, os
 
 openai.api_key = config.OPENAI_API_KEY
 
+def get_chat_gpt_options_string_single_message(message, model = "gpt-4" , temperature = 0.7):
+
+    print("**model***")
+    print(model)
+    options = {
+        "messages": [{"role": "user", "content": message}],
+        "temperature": temperature,
+        "max_tokens": 1024,
+        "n": 1,
+        "stop":None,
+        "model": model,
+    }
+    return options
+
 
 
 def create_question(subject, level, exam_board, number_of_marks, topic, same_again_sentence):
-
     number_of_marks = number_of_marks if number_of_marks else 3
     topic_sentance = '''The question should be on the topic of {}.'''.format(topic) if topic else " "
 
@@ -22,11 +35,9 @@ def create_question(subject, level, exam_board, number_of_marks, topic, same_aga
 
     print(message)
 
-    options = get_da_vinci_options(message)
-    print(options)
     try:
         print('\n\n***BOUT to try \n\n\n')
-        response = openai.Completion.create(**options)['choices'][0]["text"].strip().split('\n')
+        response = openai.ChatCompletion.create(**get_chat_gpt_options_string_single_message(message))['choices'][0]['message']["content"].strip().split('\n')
     except Exception as e:
         print(f"Problem with: {e}")
 
@@ -44,11 +55,9 @@ def create_mark_scheme(subject, level, exam_board, question, number_of_marks):
 
     print(message)
 
-    options = get_da_vinci_options(message)
-    print(options)
     try:
         print('\n\n***BOUT to try \n\n\n')
-        response = openai.Completion.create(**options)['choices'][0]["text"].strip().split('\n')
+        response = openai.ChatCompletion.create(**get_chat_gpt_options_string_single_message(message))['choices'][0]['message']["content"].strip().split('\n')
     except Exception as e:
         print(f"Problem with: {e}")
 
@@ -56,35 +65,9 @@ def create_mark_scheme(subject, level, exam_board, question, number_of_marks):
 
 
 
-
 def same_again(subject, level, exam_board, number_of_marks, topic, question):
     sameAgainSentence = "It should be very similar to the question {}, but not exactly the same. Keep the subject area as similar as possible, but make sure it has a different answer.".format(question)
     return create_question(subject, level, exam_board, number_of_marks, topic, sameAgainSentence)
-
-
-def get_da_vinci_options(message):
-    options = {
-        "model": "text-davinci-003",
-        "prompt": message,
-        "temperature": 0.7,
-        "max_tokens": 1024,
-        "top_p": 1,
-        "frequency_penalty": 0,
-        "presence_penalty": 0
-    }
-
-    return options
-
-def get_chat_gpt_options_string_single_message(message):
-    options = {
-        "messages": [{"role": "user", "content": message}],
-        "temperature": 1,
-        "max_tokens": 1024,
-        "n": 1,
-        "stop":None,
-        "model": "gpt-3.5-turbo",
-    }
-    return options
 
 
 def get_message_base(subject, level, exam_board, question):
@@ -105,7 +88,7 @@ def get_feedback(subject, level, exam_board, question, answer, marks, mark_schem
 
     try:
         print("*Trying Feedback*")
-        response = openai.Completion.create(**get_da_vinci_options(message))['choices'][0]['text'].strip().split('\n')
+        response = openai.ChatCompletion.create(**get_chat_gpt_options_string_single_message(message))['choices'][0]['message']["content"].strip().split('\n')
         print("*Feedback*")
         print(response)
     except Exception as e:
@@ -140,7 +123,7 @@ def get_hint(subject, level, exam_board, question, marks):
     print(message)
 
     try:
-        response = openai.Completion.create(**get_da_vinci_options(message))['choices'][0]['text'].strip().split('\n')
+        response = openai.ChatCompletion.create(**get_chat_gpt_options_string_single_message(message))['choices'][0]['message']["content"].strip().split('\n')
         print("*Hint *")
         print(response)
     except Exception as e:
@@ -148,66 +131,3 @@ def get_hint(subject, level, exam_board, question, marks):
         return
 
     return response
-
-
-
-
-def completion_query(options):
-    """
-    This method calls the openai CompletionCreate method. Use this if you're just sending standard prompt string.
-    Options should be:
-        model="text-davinci-003",
-        prompt="Dear AI, do stuff for me",
-        temperature=0.7,
-        max_tokens=512,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    """
-    try:
-        response = openai.Completion.create(**options)
-    except Exception as e:
-        print(f"Problem with: {e}")
-
-    return response
-
-
-def chat_completion_query(options):
-        """
-        This method calls the openAI ChatCompletionCreate method. Use this if you want to send priming sequences.
-        Options should be:
-            messages=messages,
-            temperature=1,
-            max_tokens=1024,
-            n=1,
-            stop=None,
-        The messages is an array of objects, system, user and assisant, eg:
-        priming_sequence = [
-            {"role": "system", "content": "You are an AI writer. You write compelling and informative content designed to help people understand complex topics."},
-            {"role": "user", "content": "Mike: Hi, I'm a programmer setting up your environment."},
-            {"role": "assistant", "content": "It's nice to meet you."},
-        ]
-        """
-        options["model"] = "gpt-3.5-turbo"
-        try:
-            return openai.ChatCompletion.create(
-                **options
-            )
-        except Exception as e:
-            print(f"Problem with: {e}.")
-
-
-def get_choices(openAIResponse, type="chat_completion_query"):
-    """
-    Returns a choice from the openai api response. This is generally the words you're looking for </force>
-    """
-    try:
-        if type == "chat_completion_query":
-            text = openAIResponse['choices'][0]["message"]['content']
-        else:
-            text = openAIResponse['choices'][0]["text"]
-
-        return text
-    except Exception as e:
-        print(f"Unable to find choices: {e}.")
-        return None
