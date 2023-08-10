@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<! -- this file is for development purposes only -->
+<head>
+    <title>Chat with GPT</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        #chatbox {
+            height: 80vh;
+            border: 1px solid #888;
+            padding: 10px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        #prompt {
+            width: 80%;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbox"></div>
+    <input type="text" id="prompt" placeholder="Type your message here...">
+    <button id="send">Send</button>
+
+    <script>
+        $(document).ready(function() {
+            $('#send').click(function() {
+                const prompt = $('#prompt').val();
+                $('#prompt').val('');
+                $('#chatbox').append('<div>You: ' + prompt + '</div>');
+
+                $.ajax({
+                    url: '/api',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ 'prompt': prompt }),
+                    success: function(data) {
+                        $('#chatbox').append('<div>GPT: ' + data + '</div>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    }
+                });
+            });
+
+            $('#prompt').on('keypress', function(e) {
+                if (e.which == 13) {
+                    $('#send').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
