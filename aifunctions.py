@@ -44,6 +44,16 @@ def create_question(subject, level, exam_board, number_of_marks, topic, same_aga
     return response
 
 
+
+def get_prompt_response(message):
+    try:
+        print('\n\n***BOUT to try \n\n\n')
+        response = openai.ChatCompletion.create(**get_chat_gpt_options_string_single_message(message))['choices'][0]['message']["content"].strip().split('\n')
+    except Exception as e:
+        print(f"Problem with: {e}")
+
+    return response
+
 def create_mark_scheme(subject, level, exam_board, question, number_of_marks):
 
     number_of_marks = number_of_marks if number_of_marks else 3

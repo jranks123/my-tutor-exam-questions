@@ -22,8 +22,8 @@ def home():
 @app.route('/api', methods=['POST'])
 def get_gpt_response():
     prompt = request.json['prompt']
-    response = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=100)
-    return jsonify(response.choices[0].text.strip())
+    response = aifunctions.get_prompt_response(prompt)
+    return jsonify(response)
 
 
 @app.route('/', methods=["GET", "POST"])

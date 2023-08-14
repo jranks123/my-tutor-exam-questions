@@ -43,6 +43,7 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ 'prompt': prompt }),
                     success: function(data) {
+                        console.log(data);
                         $('#chatbox').append('<div>GPT: ' + data + '</div>');
                         $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
                     }
