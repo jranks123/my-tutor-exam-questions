@@ -1,7 +1,7 @@
 import openai
 import config, os
 
-openai.api_key = config.OPENAI_API_KEY
+openai.api_key = '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'
 
 def get_chat_gpt_options_string_single_message(message, model = "gpt-4" , temperature = 0.7):
 
